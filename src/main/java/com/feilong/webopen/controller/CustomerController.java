@@ -3,6 +3,7 @@ package com.feilong.webopen.controller;
 import com.feilong.webopen.entity.Customer;
 import com.feilong.webopen.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,7 +19,7 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping("/addCustomer")
+    @PostMapping("/addCustomer")
     public String addCustomer(Customer customer){
         customerService.insertCustomer(customer);
         return "success";
