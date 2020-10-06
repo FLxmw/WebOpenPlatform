@@ -16,6 +16,7 @@
 <body class="loginBody">
 <form class="layui-form">
     <div class="login_face"><img src="../images/face.jpg" class="userAvatar"></div>
+    <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius" style="font-size: 25px; margin-bottom: 15px; co">开放平台登录系统</div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
         <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
@@ -54,9 +55,18 @@
 
         //登录按钮
         form.on("submit(login)",function(data){
+            console.log(data.field);
             $(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
             setTimeout(function(){
-                window.location.href = "resources/index.html";
+                // window.location.href = "resources/index.html";
+                $.ajax({
+                    url:'admin/login',
+                    method:'POST',
+                    data:data.field,
+                    success:function (data) {
+                        
+                    }
+                })
             },1000);
             return false;
         })
