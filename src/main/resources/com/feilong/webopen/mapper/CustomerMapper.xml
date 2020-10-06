@@ -4,11 +4,47 @@
 <mapper namespace="com.feilong.webopen.mapper.CustomerMapper">
     <insert id="insertCustomer" parameterType="customer">
         <!--得到新增数据后主键的id值,在执行插入语句后执行-->
-       <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
-           select  LAST_INSERT_ID()
-       </selectKey>
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
         insert into customer(username,password,nickname,address,money,state) values
         (#{username},#{password},#{nickname},#{address},#{money},#{state})
     </insert>
 
+    <update id="updateCustomer" parameterType="customer">
+        update customer set
+        <trim suffixOverrides=",">
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="nickname!=null and nickname!=''">
+                nickname=#{nickname},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="money!=null">
+                money=#{money},
+            </if>
+            <if test="state!=null">
+                state=#{state},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <delete id="deleteCustomerById" parameterType="int">
+        delete from customer where id=#{id}
+    </delete>
+
+    <select id="findCustomerById" parameterType="int" resultType="customer">
+        select * from customer where id=#{id}
+    </select>
+
+    <select id="findAllCustomers" resultType="customer">
+        select * from customer
+    </select>
 </mapper>
