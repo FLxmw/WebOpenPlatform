@@ -21,8 +21,10 @@ public class AdminController {
     private AdminService adminService;
 
     @PostMapping("/login")
-    private AjaxMessage adminLogin(Admin admin) {
-        Admin loginAdmin = adminService.selectAdmin(admin.getUsername(), admin.getPassword());
+    private AjaxMessage adminLogin(String username,String password) {
+        System.out.println(username+"  "+password);
+        Admin loginAdmin = adminService.selectAdmin(username, password);
+        System.out.println(loginAdmin);
         if (loginAdmin != null) {
             return new AjaxMessage(true, "登录成功！");
         }

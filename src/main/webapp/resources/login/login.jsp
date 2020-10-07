@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html class="loginHtml">
 <head>
     <meta charset="utf-8">
@@ -19,11 +19,11 @@
     <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius" style="font-size: 25px; margin-bottom: 15px; co">开放平台登录系统</div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
-        <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required">
+        <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required" name="username">
     </div>
     <div class="layui-form-item input-item">
         <label for="password">密码</label>
-        <input type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required">
+        <input type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required" name="password">
     </div>
     <div class="layui-form-item input-item" id="imgCode">
         <label for="code">验证码</label>
@@ -55,19 +55,19 @@
 
         //登录按钮
         form.on("submit(login)",function(data){
-            console.log(data.field);
+            console.log(data.field);//当前容器的全部表单字段，名值对形式：{name: value}
             $(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
             setTimeout(function(){
                 $.ajax({
-                    url:'admin/login',
+                    url:'${pageContext.request.contextPath}/admin/login',
                     method:'POST',
                     data:data.field,
                     success:function (data) {
-                       if (data.status){
-                          window.location.href='index.html';
-                       }else {
-                           layer.msg(data.message);
-                       }
+                        if (data.status){
+                            window.location.href='index.html';
+                        }else {
+                            layer.msg(data.message);
+                        }
                     }
                 })
             },1000);

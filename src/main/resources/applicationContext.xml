@@ -38,7 +38,7 @@
         <!--配置别名-->
         <property name="typeAliasesPackage" value="com.feilong.webopen.entity"></property>
        <!--配置sql的映射路径-->
-        <!--<property name="mapperLocations" value="classpath*:com/feilong/webopen/mapper/*.xml"/>-->
+        <property name="mapperLocations" value="classpath*:com/feilong/webopen/mapper/*.xml"/>
         <property name="configLocation" value="classpath:mybatis.xml"></property>
     </bean>
     <!--开启注解扫描mapper-->
