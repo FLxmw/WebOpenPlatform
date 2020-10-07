@@ -1,6 +1,7 @@
 package com.feilong.webopen.mapper;
 
 import com.feilong.webopen.entity.Customer;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -21,4 +22,5 @@ public interface CustomerMapper {
     Customer findCustomerById(int id);
 
     List<Customer> findAllCustomers();
+
 }

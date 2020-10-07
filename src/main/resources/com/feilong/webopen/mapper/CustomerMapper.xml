@@ -47,4 +47,5 @@
     <select id="findAllCustomers" resultType="customer">
         select * from customer
     </select>
+
 </mapper>

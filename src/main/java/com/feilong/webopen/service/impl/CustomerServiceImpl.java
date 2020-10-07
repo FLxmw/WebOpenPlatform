@@ -3,6 +3,8 @@ package com.feilong.webopen.service.impl;
 import com.feilong.webopen.entity.Customer;
 import com.feilong.webopen.mapper.CustomerMapper;
 import com.feilong.webopen.service.CustomerService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +42,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAllCustomers() {
-        List<Customer> customers = customerMapper.findAllCustomers();
-        return customers;
+    public PageInfo<Customer> findAllCustomers(int page, int limit) {
+        PageHelper.startPage(page,limit);
+        List<Customer> customerList = customerMapper.findAllCustomers();
+        PageInfo<Customer> pageInfo = new PageInfo<>(customerList);
+        return pageInfo;
     }
+
+
 }

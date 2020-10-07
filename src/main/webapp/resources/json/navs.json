@@ -8,7 +8,7 @@
 			{
 				"title": "客户列表",
 				"icon": "&#xe66f;",
-				"href": "page/userlist.jsp",
+				"href": "page/customer/customer.jsp",
 				"spread": false
 			},
 			{
