@@ -22,4 +22,5 @@ public interface CustomerService {
 
     PageInfo<Customer> findAllCustomers(int page,int limit);
 
+    PageInfo<Customer> selectCustomerSearch(Customer customer, int page, int limit);
 }

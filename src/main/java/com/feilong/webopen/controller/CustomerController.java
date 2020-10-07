@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author FeiLong
  * @version 1.8
@@ -31,6 +33,22 @@ public class CustomerController {
     public TableData<Customer> showCustomers(int page,int limit){
         TableData tableData=new TableData();
         PageInfo<Customer> customers = customerService.findAllCustomers(page, limit);
+        tableData.setCode(0);
+        tableData.setMsg("成功!");
+        tableData.setCount(customers.getTotal());
+        tableData.setData(customers.getList());
+        return tableData;
+    }
+
+    @RequestMapping("/search")
+    public TableData search(Customer customer,int page,int limit){
+        TableData<Customer> tableData = new TableData<>();
+        PageInfo<Customer> customers= null;
+        try {
+            customers = customerService.selectCustomerSearch(customer,page,limit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tableData.setCode(0);
         tableData.setMsg("成功!");
         tableData.setCount(customers.getTotal());

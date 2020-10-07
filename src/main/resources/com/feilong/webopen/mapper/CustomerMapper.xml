@@ -48,4 +48,17 @@
         select * from customer
     </select>
 
+    <select id="findCustomersBySearch" resultType="customer">
+       select * from customer
+        where
+           <if test="username!=null and username!=''">
+               username=#{username}
+           </if>
+           and
+           <if test="state!=null">
+               state=#{state}
+           </if>
+
+    </select>
+
 </mapper>
