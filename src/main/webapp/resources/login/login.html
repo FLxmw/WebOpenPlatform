@@ -58,27 +58,29 @@
             console.log(data.field);
             $(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
             setTimeout(function(){
-                // window.location.href = "resources/index.html";
                 $.ajax({
                     url:'admin/login',
                     method:'POST',
                     data:data.field,
                     success:function (data) {
-
+                       if (data.status){
+                          window.location.href='index.html';
+                       }else {
+                           layer.msg(data.message);
+                       }
                     }
                 })
             },1000);
-            return false;
-        })
+        });
 
         //表单输入效果
         $(".loginBody .input-item").click(function(e){
             e.stopPropagation();
             $(this).addClass("layui-input-focus").find(".layui-input").focus();
-        })
+        });
         $(".loginBody .layui-form-item .layui-input").focus(function(){
             $(this).parent().addClass("layui-input-focus");
-        })
+        });
         $(".loginBody .layui-form-item .layui-input").blur(function(){
             $(this).parent().removeClass("layui-input-focus");
             if($(this).val() != ''){
@@ -86,7 +88,7 @@
             }else{
                 $(this).parent().removeClass("layui-input-active");
             }
-        })
+        });
     })
 
 </script>

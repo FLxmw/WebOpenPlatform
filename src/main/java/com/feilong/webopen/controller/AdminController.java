@@ -19,14 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
     @Autowired
     private AdminService adminService;
+
     @PostMapping("/login")
-   private AjaxMessage adminLogin(Admin admin){
-        try {
-            Admin selectAdmin = adminService.selectAdmin(admin.getUsername(), admin.getPassword());
-            return new AjaxMessage(true,"登录成功！");
-        } catch (Exception e) {
-            e.printStackTrace();
+    private AjaxMessage adminLogin(Admin admin) {
+        Admin loginAdmin = adminService.selectAdmin(admin.getUsername(), admin.getPassword());
+        if (loginAdmin != null) {
+            return new AjaxMessage(true, "登录成功！");
         }
-        return new AjaxMessage(false,"登录失败，请检查用户名或密码是否有误！");
+        return new AjaxMessage(false, "登录失败，请检查用户名或密码是否有误！");
     }
 }
