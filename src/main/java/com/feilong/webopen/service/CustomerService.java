@@ -3,8 +3,6 @@ package com.feilong.webopen.service;
 import com.feilong.webopen.entity.Customer;
 import com.github.pagehelper.PageInfo;
 
-import java.util.List;
-
 /**
  * @author FeiLong
  * @version 1.8
@@ -20,7 +18,7 @@ public interface CustomerService {
 
     Customer findCustomerById(int id);
 
-    PageInfo<Customer> findAllCustomers(int page,int limit);
+    PageInfo<Customer> findAllCustomers(Customer customer, int page, int limit);
 
     PageInfo<Customer> selectCustomerSearch(Customer customer, int page, int limit);
 }

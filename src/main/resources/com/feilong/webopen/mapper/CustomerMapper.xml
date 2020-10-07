@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feilong.webopen.mapper.CustomerMapper">
+
+    <resultMap type="com.feilong.webopen.entity.Customer" id="CustomerMap">
+        <result property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="nickname" column="nickname"/>
+        <result property="money" column="money"/>
+        <result property="address" column="address"/>
+        <result property="state" column="state"/>
+    </resultMap>
     <insert id="insertCustomer" parameterType="customer">
         <!--得到新增数据后主键的id值,在执行插入语句后执行-->
         <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
@@ -44,21 +54,8 @@
         select * from customer where id=#{id}
     </select>
 
-    <select id="findAllCustomers" resultType="customer">
+    <select id="findAllCustomers" resultMap="CustomerMap">
         select * from customer
-    </select>
-
-    <select id="findCustomersBySearch" resultType="customer">
-       select * from customer
-        where
-           <if test="username!=null and username!=''">
-               username=#{username}
-           </if>
-           and
-           <if test="state!=null">
-               state=#{state}
-           </if>
-
     </select>
 
 </mapper>
