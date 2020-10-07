@@ -3,10 +3,10 @@ package com.feilong.webopen.controller;
 import com.feilong.webopen.bean.AjaxMessage;
 import com.feilong.webopen.entity.Admin;
 import com.feilong.webopen.service.AdminService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author FeiLong
@@ -20,12 +20,12 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/login")
-    private AjaxMessage adminLogin(String username,String password) {
-        System.out.println(username+"  "+password);
+    @RequestMapping("/login")
+    private  AjaxMessage adminLogin(Admin admin) {
+        System.out.println(admin);
         Admin loginAdmin = null;
         try {
-            loginAdmin = adminService.selectAdmin(username, password);
+            loginAdmin = adminService.selectAdmin(admin.getUsername(), admin.getPassword());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -64,7 +64,7 @@
                     data:data.field,
                     success:function (data) {
                         if (data.status){
-                            window.location.href='index.html';
+                            window.location.href='${pageContext.request.contextPath}/index.html';
                         }else {
                             layer.msg(data.message);
                         }
