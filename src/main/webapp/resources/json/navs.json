@@ -6,17 +6,16 @@
 		"spread": true,
 		"children": [
 			{
-				"title": "客户列表",
+				"title": "客户管理",
 				"icon": "&#xe66f;",
-				"href": "page/customer/customer.jsp",
+				"href": "page/man/customer.jsp",
 				"spread": false
 			},
 			{
-				"title": "车辆管理",
+				"title": "应用管理",
 				"icon": "&#xe665;",
-				"href": "page/login/login.html",
-				"spread": false,
-				"target": "_blank"
+				"href": "page/man/appinfo.jsp",
+				"spread": false
 			}
 		]
 	},

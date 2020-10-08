@@ -3,14 +3,15 @@ package com.feilong.webopen.controller;
 import com.feilong.webopen.bean.AjaxMessage;
 import com.feilong.webopen.bean.TableData;
 import com.feilong.webopen.entity.AppInfo;
+import com.feilong.webopen.entity.Customer;
 import com.feilong.webopen.service.AppInfoService;
+import com.feilong.webopen.service.CustomerService;
 import com.github.pagehelper.PageInfo;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Appinfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author FeiLong
@@ -23,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppInfoController {
     @Autowired
     private AppInfoService appInfoService;
+    @Autowired
+    private CustomerService customerService;
 
     @RequestMapping("/addAppInfo")
-    public AjaxMessage addAppInfo(AppInfo appInfo) {
+    public AjaxMessage addAppInfo(@RequestBody AppInfo appInfo) {
         try {
             appInfoService.insertAppInfo(appInfo);
             return new AjaxMessage(true, "添加成功！");
@@ -48,6 +51,7 @@ public class AppInfoController {
 
     @RequestMapping("/deleteAppInfo")
     public AjaxMessage deleteAppInfo(long[] ids) {
+        System.out.println(ids);
         try {
             appInfoService.deleteAppInfoByIds(ids);
             return new AjaxMessage(true, "删除成功！");
@@ -73,4 +77,9 @@ public class AppInfoController {
         return appInfo;
     }
 
+    @RequestMapping("/getCustomers")
+    public List<Customer> getCustomers(){
+        List<Customer> customers = customerService.getAllCustomers();
+        return customers;
+    }
 }

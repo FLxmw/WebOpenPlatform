@@ -27,6 +27,7 @@ public class AppInfoServiceImpl implements AppInfoService {
 
     @Override
     public void insertAppInfo(AppInfo appInfo) {
+        //先查询我们的客户，然后将名字设置给我们的应用名称
         Customer customer = customerMapper.findCustomerById(appInfo.getCusId());
         appInfo.setCorpName(customer == null ? null : customer.getNickname());
         appInfoMapper.insertAppInfo(appInfo);
@@ -35,6 +36,11 @@ public class AppInfoServiceImpl implements AppInfoService {
     @Override
     public void updateAppInfo(AppInfo appInfo) {
         if (appInfo.getId() != null) {
+            //更新冗余字段，公司名称
+            Customer customer = customerMapper.findCustomerById(appInfo.getCusId());
+            if (customer != null) {
+                appInfo.setCorpName(customer.getNickname());
+            }
             appInfoMapper.updateAppInfo(appInfo);
         }
     }

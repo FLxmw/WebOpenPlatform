@@ -42,9 +42,15 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public List<Customer> getAllCustomers() {
+        List<Customer> customers = customerMapper.findAllCustomers();
+        return customers;
+    }
+
+    @Override
     public PageInfo<Customer> findAllCustomers(Customer customer, int page, int limit) {
         PageHelper.startPage(page,limit);
-        List<Customer> customerList = customerMapper.findAllCustomers(customer);
+        List<Customer> customerList = customerMapper.findAllCustomers();
         PageInfo<Customer> pageInfo = new PageInfo<>(customerList);
         return pageInfo;
     }

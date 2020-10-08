@@ -34,12 +34,12 @@
 
 
 <!-- 数据表格开始 -->
-<table class="layui-hide" id="customerTable" lay-filter="customerTable"></table>
-<div style="display: none;" id="customerToolBar">
+<table class="layui-hide" id="appInfoTable" lay-filter="appInfoTable"></table>
+<div style="display: none;" id="appInfoToolBar">
     <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>增加</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-danger " lay-event="batchDelete"><i class="layui-icon">&#xe640;</i>批量删除</button>
 </div>
-<div  id="userBar" style="display: none;">
+<div  id="appInfoBar" style="display: none;">
     <a class="layui-btn layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i>编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i>删除</a>
 </div>
@@ -50,49 +50,62 @@
     <form class="layui-form " action="" method="post" lay-filter="dataFrm" id="dataFrm" >
         <input type="hidden" hidden="hidden" name="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名:</label>
+            <label class="layui-form-label">应用名称</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                <input type="text" name="appName" required lay-verify="required"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司名称</label>
-            <div class="layui-input-block">
-                <input type="text" name="nickname" required lay-verify="required" placeholder="请输入公司名称"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-block">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                       autocomplete="off"
-                       class="layui-input">
+            <label class="layui-form-label">选择所属客户</label>
+            <div class="layui-input-inline">
+                <select name="cusId" id="customerId">
+                </select>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司地址：</label>
+            <label class="layui-form-label">appKey</label>
             <div class="layui-input-block">
-                <input type="text" name="address" required lay-verify="required" placeholder="请输入地址"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">账户金额(元)：</label>
-            <div class="layui-input-block">
-                <input type="number" name="money" required lay-verify="required" placeholder="请输入账号金额"
+                <input type="text" name="appKey" required lay-verify="required"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户状态：</label>
+            <label class="layui-form-label">秘钥</label>
+            <div class="layui-input-block">
+                <input type="text" name="appSecret" required lay-verify="required"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回调地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="redirectUrl" required lay-verify="required"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">日调用量限制</label>
+            <div class="layui-input-block">
+                <input type="text" name="limit" required lay-verify="required"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" required lay-verify="required"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
                 <input type="radio" name="state" title="有效" value="1" checked/>
                 <input type="radio" name="state" title="无效" value="0"/>
@@ -133,10 +146,10 @@
         var tableIns;
         //渲染数据表格
         tableIns=table.render({
-            elem: '#customerTable'   //渲染的目标对象
-            ,url:'${pageContext.request.contextPath}/customer/showTable' //数据接口
+            elem: '#appInfoTable'   //渲染的目标对象
+            ,url:'${pageContext.request.contextPath}/appInfo/showTable' //数据接口
             ,title: '客户数据表'//数据导出来的标题
-            ,toolbar:"#customerToolBar"   //表格的工具条
+            ,toolbar:"#appInfoToolBar"   //表格的工具条
             ,height:'full-20'
             ,cellMinWidth:100 //设置列的最小默认宽度
             , skin: 'row' //行边框风格  row列边框  nob无边框
@@ -152,33 +165,35 @@
             ,cols: [[   //列表数据
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'id', title:'ID', sort:true,align:'center',totalRowText: "合计"}
-                ,{field:'username', title:'用户名',align:'center'}
-                ,{field:'password', title:'密码',align:'center'}
-                ,{field:'nickname', title:'公司名', align:'center'}
-                ,{field:'address', title:'公司地址', align:'center'}
-                ,{field:'money', title:'账户余额', align:'center',totalRow: true}
-                ,{field:'state', title:'用户状态', align:'center',templet:function (data) {
-                        return data.state==0?'<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>':'<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
+                ,{field:'corpName', title:'公司名',align:'center'}
+                ,{field:'appName', title:'应用名称',align:'center'}
+                ,{field:'appKey', title:'appKey', align:'center'}
+                ,{field:'appSecret', title:'秘钥', align:'center'}
+                ,{field:'redirectUrl', title:'回调地址', align:'center'}
+                , {field: 'limit', title: '日调用量限制', align:'center'}
+                , {field: 'description', title: '描述', align:'center'}
+                ,{field:'state', title:'应用状态', align:'center',templet:function (data) {
+                        return data.state==1?'<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>':'<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
                     }}
-                ,{fixed: 'right', title:'操作', toolbar: '#userBar', width:220,align:'center'}
+                ,{fixed: 'right', title:'操作', toolbar: '#appInfoBar', width:220,align:'center'}
             ]]
         })
 
 
         //监听头部工具栏事件
-        table.on("toolbar(customerTable)",function(obj){
+        table.on("toolbar(appInfoTable)",function(obj){
             switch(obj.event){
                 case 'add':
-                    openAddUser();
+                    openEditAppInfo(null);
                     break;
                 case 'batchDelete':
-                    var checkStatus = table.checkStatus('customerTable'); //idTest 即为基础参数 id 对应的值
+                    var checkStatus = table.checkStatus('appInfoTable'); //idTest 即为基础参数 id 对应的值
                     var datas=checkStatus.data;
                     console.log(datas);
                     $(datas).each(function (index) {
                         console.log(datas[index].id)
                         $.ajax({
-                            url:'${pageContext.request.contextPath}/customer/deleteCustomer?id='+datas[index].id,
+                            url:'${pageContext.request.contextPath}/appInfo/deleteAppInfo?ids='+datas[index].id,
                             success:function (data) {
                                 if (data.status){
                                     layer.msg(data.message);
@@ -195,10 +210,10 @@
         })
 
         //监听行工具事件
-        table.on('tool(customerTable)', function(obj){
+        table.on('tool(appInfoTable)', function(obj){
             var data = obj.data; //获得当前行数据
             console.log(data);
-            // console.log(data.id)
+            console.log(data.id)
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if(layEvent === 'del'){ //删除
                 layer.msg("删除");
@@ -206,7 +221,7 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
-                        url:'${pageContext.request.contextPath}/customer/deleteCustomer?id='+data.id,
+                        url:'${pageContext.request.contextPath}/appInfo/deleteAppInfo?ids='+data.id,
                         success:function (data) {
                             if (data.status){
                                 layer.msg(data.message)
@@ -218,17 +233,17 @@
                     })
                 });
             } else if(layEvent === 'edit'){ //编辑
-                openUpdateUser(data);
+                openEditAppInfo(data);
             }
         });
 
         var url;
         var mainIndex;
-        //打开添加页面
-        function openAddUser(){
+        //打开添加/编辑页面
+        function openEditAppInfo(data){
             mainIndex=layer.open({
                 type:1,
-                title:'添加用户',
+                title:'编辑|添加应用',
                 content:$("#saveOrUpdateDiv"),
                 area:['800px','500px'],
                 success:function(index){
@@ -236,12 +251,28 @@
                     // JS转Jquery$(obj)
                     // Jquery转JS []
                     $("#dataFrm")[0].reset();
-                    url="${pageContext.request.contextPath}/customer/addCustomer";
+                    $.ajax({
+                        url:'${pageContext.request.contextPath}/appInfo/getCustomers',
+                        type:'POST',
+                        success:function (res) {
+                            if (res){
+                                for (var i = 0; i <res.length ; i++) {
+                                    if (data&&data.cusId==res[i].id) {
+                                        $("#customerId").append('<option selected value="'+res[i].id+'">'+res[i].nickname+'</option>')
+                                    }else {
+                                        $("#customerId").append('<option value="' + res[i].id + '">' + res[i].nickname + '</option>');
+                                    }
+                                }
+                                form.render();
+                            }
+                        }
+                    });
+                    url="${pageContext.request.contextPath}/appInfo/addAppInfo";
                 }
             });
         }
         //打开修改页面
-        function openUpdateUser(data){
+        function openEditAppInfo(data){
             mainIndex=layer.open({
                 type:1,
                 title:'修改用户',
@@ -249,8 +280,25 @@
                 area:['800px','500px'],
                 success:function(index){
                     //console.log(data)
-                    form.val("dataFrm",data) //回显数据，直接给表单赋值
-                    url="${pageContext.request.contextPath}/customer/updateCustomer";
+                    form.val("dataFrm",data) ;//回显数据，直接给表单赋值
+                    $.ajax({
+                        url:'${pageContext.request.contextPath}/appInfo/getCustomers',
+                        type:'POST',
+                        success:function (res) {
+                            if (res){
+                                for (var i = 0; i <res.length ; i++) {
+                                    if (data&&data.cusId&&data.cusId==res[i].id) {
+                                        $("#customerId").append('<option selected value="'+res[i].id+'">'+res[i].nickname+'</option>')
+                                    }else {
+                                        $("#customerId").append('<option value="' + res[i].id + '">' + res[i].nickname + '</option>');
+                                    }
+                                }
+                                form.render();
+                            }
+                        }
+                    });
+                    url="${pageContext.request.contextPath}/appInfo/updateAppInfo";
+
                 }
             });
         }
@@ -271,10 +319,11 @@
                 type:"POST",
                 success:function (data) {
                    if (data.status){
+                       layer.msg(data.message)
                        //关闭弹出层
                        layer.close(mainIndex)
                        //刷新数据 表格
-                       tableIns.reload();
+                       tableIns.reload()
                    } else {
                        layer.msg(data.message)
                    }
@@ -292,7 +341,7 @@
                 where: obj.field
             });
             <%--$.ajax({--%>
-                <%--url:'${pageContext.request.contextPath}/customer/search',--%>
+                <%--url:'${pageContext.request.contextPath}/appInfo/search',--%>
                 <%--data:obj.field,--%>
                 <%--method:'POST',--%>
                 <%--success:function (data) {--%>

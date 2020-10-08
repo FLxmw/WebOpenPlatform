@@ -21,7 +21,7 @@ public interface CustomerMapper {
 
     Customer findCustomerById(int id);
 
-    List<Customer> findAllCustomers(Customer customer);
+    List<Customer> findAllCustomers();
 
     List<Customer> findCustomersBySearch(Customer customer);
 }
