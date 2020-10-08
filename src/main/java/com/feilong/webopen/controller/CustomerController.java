@@ -60,7 +60,7 @@ public class CustomerController {
         return new AjaxMessage(false,"删除失败！");
     }
 
-    @RequestMapping("/showCustomers")
+    @RequestMapping("/showTable")
     public TableData<Customer> showCustomers(Customer customer,int page,int limit){
         System.out.println(2222);
         TableData tableData=new TableData();

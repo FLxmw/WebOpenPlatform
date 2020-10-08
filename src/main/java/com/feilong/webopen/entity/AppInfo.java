@@ -6,7 +6,7 @@ import java.io.Serializable;
 @SuppressWarnings("ALL")
 public class AppInfo implements Serializable {
 
-    private int id;
+    private Integer id;
     private String corpName;
     private String appName;
     private String appKey;
@@ -20,7 +20,7 @@ public class AppInfo implements Serializable {
     public AppInfo() {
     }
 
-    public AppInfo(int id, String corpName, String appName, String appKey, String appSecret, String redirectUrl, int limit, String description, int cusId, int state) {
+    public AppInfo(Integer id, String corpName, String appName, String appKey, String appSecret, String redirectUrl, int limit, String description, int cusId, int state) {
         this.id = id;
         this.corpName = corpName;
         this.appName = appName;
@@ -33,11 +33,11 @@ public class AppInfo implements Serializable {
         this.state = state;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

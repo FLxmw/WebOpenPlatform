@@ -34,8 +34,8 @@
 
 
 <!-- 数据表格开始 -->
-<table class="layui-hide" id="userTable" lay-filter="userTable"></table>
-<div style="display: none;" id="userToolBar">
+<table class="layui-hide" id="appInfoTable" lay-filter="appInfoTable"></table>
+<div style="display: none;" id="appInfoToolBar">
     <button type="button" class="layui-btn layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe654;</i>增加</button>
     <button type="button" class="layui-btn layui-btn-sm layui-btn-danger " lay-event="batchDelete"><i class="layui-icon">&#xe640;</i>批量删除</button>
 </div>
@@ -133,10 +133,10 @@
         var tableIns;
         //渲染数据表格
         tableIns=table.render({
-            elem: '#userTable'   //渲染的目标对象
-            ,url:'${pageContext.request.contextPath}/customer/showCustomers' //数据接口
-            ,title: '客户数据表'//数据导出来的标题
-            ,toolbar:"#userToolBar"   //表格的工具条
+            elem: '#appInfoTable'   //渲染的目标对象
+            ,url:'${pageContext.request.contextPath}/appInfo/showTable' //数据接口
+            ,title: '应用数据表'//数据导出来的标题
+            ,toolbar:"#appInfoToolBar"   //表格的工具条
             ,height:'full-20'
             ,cellMinWidth:100 //设置列的最小默认宽度
             , skin: 'row' //行边框风格  row列边框  nob无边框
@@ -152,13 +152,15 @@
             ,cols: [[   //列表数据
                 {type: 'checkbox', fixed: 'left'}
                 ,{field:'id', title:'ID', sort:true,align:'center',totalRowText: "合计"}
-                ,{field:'username', title:'用户名',align:'center'}
-                ,{field:'password', title:'密码',align:'center'}
-                ,{field:'nickname', title:'公司名', align:'center'}
-                ,{field:'address', title:'公司地址', align:'center'}
-                ,{field:'money', title:'账户余额', align:'center',totalRow: true}
+                ,{field:'corpName', title:'公司名',align:'center'}
+                ,{field:'appName', title:'应用名称',align:'center'}
+                ,{field:'appKey', title:'appKey', align:'center'}
+                ,{field:'appSecret', title:'秘钥', align:'center'}
+                ,{field:'redirectUrl', title:'回调地址', align:'center'}
+                , {field: 'limit', title: '日调用量限制', align:'center'}
+                , {field: 'description', title: '描述', align:'center'}
                 ,{field:'state', title:'用户状态', align:'center',templet:function (data) {
-                        return data.state==0?'<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>':'<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
+                        return data.state==1?'<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>':'<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
                     }}
                 ,{fixed: 'right', title:'操作', toolbar: '#userBar', width:220,align:'center'}
             ]]
@@ -166,19 +168,19 @@
 
 
         //监听头部工具栏事件
-        table.on("toolbar(userTable)",function(obj){
+        table.on("toolbar(appInfoTable)",function(obj){
             switch(obj.event){
                 case 'add':
                     openAddUser();
                     break;
                 case 'batchDelete':
-                    var checkStatus = table.checkStatus('userTable'); //idTest 即为基础参数 id 对应的值
+                    var checkStatus = table.checkStatus('appInfoTable'); //idTest 即为基础参数 id 对应的值
                     var datas=checkStatus.data;
                     console.log(datas);
                     $(datas).each(function (index) {
                         console.log(datas[index].id)
                         $.ajax({
-                            url:'${pageContext.request.contextPath}/customer/deleteCustomer?id='+datas[index].id,
+                            url:'${pageContext.request.contextPath}/appInfo/deleteappInfo?id='+datas[index].id,
                             success:function (data) {
                                 if (data.status){
                                     layer.msg(data.message);
@@ -195,7 +197,7 @@
         })
 
         //监听行工具事件
-        table.on('tool(userTable)', function(obj){
+        table.on('tool(appInfoTable)', function(obj){
             var data = obj.data; //获得当前行数据
             console.log(data);
             // console.log(data.id)
@@ -206,7 +208,7 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
-                        url:'${pageContext.request.contextPath}/customer/deleteCustomer?id='+data.id,
+                        url:'${pageContext.request.contextPath}/appInfo/deleteappInfo?id='+data.id,
                         success:function (data) {
                             if (data.status){
                                 layer.msg(data.message)
@@ -236,7 +238,7 @@
                     // JS转Jquery$(obj)
                     // Jquery转JS []
                     $("#dataFrm")[0].reset();
-                    url="${pageContext.request.contextPath}/customer/addCustomer";
+                    url="${pageContext.request.contextPath}/appInfo/addappInfo";
                 }
             });
         }
@@ -250,7 +252,7 @@
                 success:function(index){
                     //console.log(data)
                     form.val("dataFrm",data) //回显数据，直接给表单赋值
-                    url="${pageContext.request.contextPath}/customer/updateCustomer";
+                    url="${pageContext.request.contextPath}/appInfo/updateappInfo";
                 }
             });
         }
@@ -292,7 +294,7 @@
                 where: obj.field
             });
             <%--$.ajax({--%>
-                <%--url:'${pageContext.request.contextPath}/customer/search',--%>
+                <%--url:'${pageContext.request.contextPath}/appInfo/search',--%>
                 <%--data:obj.field,--%>
                 <%--method:'POST',--%>
                 <%--success:function (data) {--%>

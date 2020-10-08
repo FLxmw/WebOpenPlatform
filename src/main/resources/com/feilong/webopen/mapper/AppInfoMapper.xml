@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.AppInfoMapper">
+
+
+    <insert id="insertAppInfo" parameterType="appInfo">
+       INSERT INTO app_info (appName,corpName,appKey,appSecret,redirectUrl,`limit`,description,cusId)
+        VALUES (#{appName},#{corpName},#{appKey},#{appSecret},#{redirectUrl},#{limit},#{description},#{cusId})
+   </insert>
+
+    <update id="updateAppInfo" parameterType="appInfo">
+        update app_info set
+        <trim suffixOverrides=",">
+            <if test="appName!=null and appName!=''">
+                appName=#{appName},
+            </if>
+            <if test="corpName!=null and corpName!=''">
+                corpName=#{corpName},
+            </if>
+            <if test="appKey!=null and appKey!=''">
+                appKey=#{appKey},
+            </if>
+            <if test="appSecret!=null and appSecret!=''">
+                appSecret=#{appSecret},
+            </if>
+            <if test="redirectUrl!=null and redirectUrl!=''">
+                redirectUrl=#{redirectUrl},
+            </if>
+            <if test="limit!=null">
+                limit=#{limit},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            <if test="cusId!=null">
+                cusId=#{cusId},
+            </if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!--<delete id="deleteAppInfoById" parameterType="int">-->
+        <!--delete from app_info where id=#{id}-->
+    <!--</delete>-->
+
+    <delete id="deleteAppInfoByIds" parameterType="int">
+        delete from app_info
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getAppInfo">
+      select id,corpName,appKey,appName,appSecret,description,cusId,redirectUrl,state,`limit`
+        from app_info
+    </sql>
+
+    <select id="getAppInfoById" parameterType="int" resultType="appInfo">
+        <include refid="getAppInfo"/>
+        <where>
+            <if test="id!=null">
+                id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <select id="getAppInfos" resultType="appInfo">
+        <include refid="getAppInfo"/>
+    </select>
+</mapper>
