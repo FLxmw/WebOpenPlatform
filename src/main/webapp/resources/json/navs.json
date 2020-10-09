@@ -55,7 +55,7 @@
 				"title": "Token管理",
 				"icon": "&#xe609;",
 				"href": "page/man/token.jsp",
-				"spread": false,
+				"spread": false
 			},
 			{
 				"title": "系统日志",

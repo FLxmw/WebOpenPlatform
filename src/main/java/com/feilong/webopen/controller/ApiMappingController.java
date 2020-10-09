@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.bind.SchemaOutputResolver;
+
 /**
  * @author FeiLong
  * @version 1.8
@@ -47,6 +49,7 @@ public class ApiMappingController {
 
     @RequestMapping("/deleteApiMapping")
     public AjaxMessage deleteApiMapping(long[] ids) {
+        System.out.println(ids);
         try {
             apiMappingService.deleteApiMappingByIds(ids);
             return new AjaxMessage(true, "删除成功！");

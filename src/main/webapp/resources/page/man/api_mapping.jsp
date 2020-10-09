@@ -176,7 +176,7 @@
                 }
                 , {
                     field: 'needfee', title: '是否收费', align: 'center', templet: function (data) {
-                        return data.needfee == 1 ? '<span  class="layui-badge layui-bg-red" style="margin: 5px;">收费</span>' : '<span  class="layui-badge layui-bg-green" style="margin: 5px;">免费</span>';
+                        return data.needfee == 1 ? '<span  class="layui-badge layui-bg-green" style="margin: 5px;">收费</span>' : '<span  class="layui-badge layui-bg-red" style="margin: 5px;">免费</span>';
                     }
                 }
                 , {fixed: 'right', title: '操作', toolbar: '#apiMappingBar', width: 160, align: 'center'}
@@ -224,7 +224,7 @@
         table.on('tool(apiMappingTable)', function (obj) {
             var data = obj.data; //获得当前行数据
             console.log(data);
-            // console.log(data.id)
+            console.log(data.id)
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'del') { //删除
                 layer.msg("删除");
