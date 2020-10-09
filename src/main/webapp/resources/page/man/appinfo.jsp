@@ -119,7 +119,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">日调用量限制</label>
             <div class="layui-input-block">
-                <input type="text" name="limit" required lay-verify="required"
+                <input type="text" name="limiting" required lay-verify="required"
                        autocomplete="off"
                        class="layui-input">
             </div>
@@ -179,7 +179,7 @@
                 , {field: 'appKey', title: 'appKey', align: 'center'}
                 , {field: 'appSecret', title: '秘钥', align: 'center'}
                 , {field: 'redirectUrl', title: '回调地址', align: 'center',width:180}
-                , {field: 'limit', title: '日调用量限制', align: 'center',totalRow: true}
+                , {field: 'limiting', title: '日调用量限制', align: 'center',totalRow: true}
                 , {field: 'description', title: '描述', align: 'center'}
                 , {
                     field: 'state', title: '应用状态', align: 'center', templet: function (data) {
@@ -297,6 +297,8 @@
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
+                    }else {
+                        $("#dataFrm")[0].reset()
                     }
                     $.ajax({
                         url: '${pageContext.request.contextPath}/appInfo/getCustomers',

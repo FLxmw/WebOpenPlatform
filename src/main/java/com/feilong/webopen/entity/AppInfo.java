@@ -12,7 +12,7 @@ public class AppInfo implements Serializable {
     private String appKey;
     private String appSecret;
     private String redirectUrl;
-    private int limit;
+    private int limiting;
     private String description;
     private int cusId;
     private int state;
@@ -20,14 +20,14 @@ public class AppInfo implements Serializable {
     public AppInfo() {
     }
 
-    public AppInfo(Integer id, String corpName, String appName, String appKey, String appSecret, String redirectUrl, int limit, String description, int cusId, int state) {
+    public AppInfo(Integer id, String corpName, String appName, String appKey, String appSecret, String redirectUrl, int limiting, String description, int cusId, int state) {
         this.id = id;
         this.corpName = corpName;
         this.appName = appName;
         this.appKey = appKey;
         this.appSecret = appSecret;
         this.redirectUrl = redirectUrl;
-        this.limit = limit;
+        this.limiting = limiting;
         this.description = description;
         this.cusId = cusId;
         this.state = state;
@@ -81,12 +81,12 @@ public class AppInfo implements Serializable {
         this.redirectUrl = redirectUrl;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getlimiting() {
+        return limiting;
     }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
+    public void setlimiting(int limiting) {
+        this.limiting = limiting;
     }
 
     public String getDescription() {

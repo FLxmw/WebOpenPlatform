@@ -8,8 +8,8 @@
         <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
             select LAST_INSERT_ID()
         </selectKey>
-       INSERT INTO app_info (appName,corpName,appKey,appSecret,redirectUrl,`limit`,description,cusId,state)
-        VALUES (#{appName},#{corpName},#{appKey},#{appSecret},#{redirectUrl},#{limit},#{description},#{cusId},#{state})
+       INSERT INTO app_info (appName,corpName,appKey,appSecret,redirectUrl,`limiting`,description,cusId,state)
+        VALUES (#{appName},#{corpName},#{appKey},#{appSecret},#{redirectUrl},#{limiting},#{description},#{cusId},#{state})
    </insert>
 
     <update id="updateAppInfo" parameterType="appInfo">
@@ -30,8 +30,8 @@
             <if test="redirectUrl!=null and redirectUrl!=''">
                 redirectUrl=#{redirectUrl},
             </if>
-            <if test="limit!=null">
-                limit=#{limit},
+            <if test="limiting!=null">
+                limiting=#{limiting},
             </if>
             <if test="description!=null and description!=''">
                 description=#{description},
@@ -59,7 +59,7 @@
     </delete>
 
     <sql id="getAppInfo">
-      select id,corpName,appKey,appName,appSecret,description,cusId,redirectUrl,state,`limit`
+      select id,corpName,appKey,appName,appSecret,description,cusId,redirectUrl,state,`limiting`
         from app_info
     </sql>
 

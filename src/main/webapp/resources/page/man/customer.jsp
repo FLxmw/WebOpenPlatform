@@ -286,10 +286,15 @@
                     })
 
                 }
+                ,btn1:function () {
+                    tableIns.reload()
+                }
                 , success: function (index) {
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
+                    }else {
+                        $("#dataFrm")[0].reset()
                     }
                 }
             });

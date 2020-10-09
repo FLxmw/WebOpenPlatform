@@ -53,8 +53,8 @@ public class ApiMappingServiceImpl implements ApiMappingService {
     }
 
     @Override
-    public PageInfo<ApiMapping> findAllApiMappingsByPage(int page, int limit) {
-        PageHelper.startPage(page, limit);
+    public PageInfo<ApiMapping> findAllApiMappingsByPage(int page, int limitinging) {
+        PageHelper.startPage(page, limitinging);
         List<ApiMapping> apiMappingList = apiMappingMapper.getMappingList();
         return new PageInfo<ApiMapping>(apiMappingList);
     }

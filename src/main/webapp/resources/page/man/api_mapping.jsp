@@ -78,54 +78,58 @@
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none;padding: 20px" id="saveOrUpdateDiv">
     <form class="layui-form " action="" method="post" lay-filter="dataFrm" id="dataFrm">
-        <input type="hidden" hidden="hidden" name="id">
+        <input type="hidden" name="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名:</label>
+            <label class="layui-form-label">路由标识</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                <input type="text" name="gatewayApiName" required lay-verify="required" placeholder="请输入路由名"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">URL</label>
             <div class="layui-input-block">
-                <input type="text" name="nickname" required lay-verify="required" placeholder="请输入公司名称"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-block">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                <input type="text" name="insideApiUrl" required lay-verify="required" placeholder="请输入URL(具体的服务接口地址)"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司地址：</label>
+            <label class="layui-form-label">serviceId</label>
             <div class="layui-input-block">
-                <input type="text" name="address" required lay-verify="required" placeholder="请输入地址"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">账户金额(元)：</label>
-            <div class="layui-input-block">
-                <input type="number" name="money" required lay-verify="required" placeholder="请输入账号金额"
+                <input type="text" name="serviceId" required lay-verify="required" placeholder="请输入服务名称"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户状态：</label>
+            <label class="layui-form-label">描述</label>
+            <div class="layui-input-block">
+                <input type="text" name="description" required lay-verify="required" placeholder="请输入描述信息"
+                       autocomplete="off"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">状态</label>
             <div class="layui-input-block">
                 <input type="radio" name="state" title="有效" value="1" checked/>
                 <input type="radio" name="state" title="无效" value="0"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否幂等</label>
+            <div class="layui-input-block">
+                <input type="radio" name="idempotents" title="幂等" value="1" checked/>
+                <input type="radio" name="idempotents" title="非幂等" value="0"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">是否收费</label>
+            <div class="layui-input-block">
+                <input type="radio" name="needfee" title="收费" value="1" checked/>
+                <input type="radio" name="needfee" title="免费" value="0"/>
             </div>
         </div>
     </form>
@@ -159,18 +163,18 @@
             , page: true  //是否启用分页
             , cols: [[   //列表数据
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', sort: true, align: 'center', totalRowText: "合计"}
-                , {field: 'gatewayApiName', title: '路由名称', align: 'center'}
-                , {field: 'insideApiUrl', title: 'URL', align: 'center'}
-                , {field: 'serviceId', title: '服务名称', align: 'center'}
+                , {field: 'id', title: 'ID', sort: true, align: 'center',width:60}
+                , {field: 'gatewayApiName', title: '路由标识', align: 'center'}
+                , {field: 'insideApiUrl', title: 'URL(服务接口地址)', align: 'center',width:200}
+                , {field: 'serviceId', title: '服务名称', align: 'center',width:140}
                 , {field: 'description', title: '描述信息', align: 'center',width:200}
                 , {
-                    field: 'state', title: '状态', align: 'center', templet: function (data) {
+                    field: 'state', title: '状态', align: 'center',width:80, templet: function (data) {
                         return data.state == 1 ? '<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>' : '<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
                     }
                 }
                 , {
-                    field: 'idempotents', title: '幂等性', align: 'center', templet: function (data) {
+                    field: 'idempotents', title: '幂等性', align: 'center',width:90, templet: function (data) {
                         return data.idempotents == 1 ? '<span  class="layui-badge layui-bg-green" style="margin: 5px;">幂等</span>' : '<span  class="layui-badge layui-bg-red" style="margin: 5px;">非幂等</span>';
                     }
                 }
@@ -188,7 +192,7 @@
         table.on("toolbar(apiMappingTable)", function (obj) {
             switch (obj.event) {
                 case 'add':
-                    openEditapiMapping(null);
+                    openEditApiMapping(null);
                     break;
                 case 'batchDelete':
                     layer.confirm('你真的要删除选中的吗?', {
@@ -249,17 +253,17 @@
                     })
                 });
             } else if (layEvent === 'edit') { //编辑
-                openEditapiMapping(data);
+                openEditApiMapping(data);
             }
         });
 
         var mainIndex;
 
         //打开添加/编辑页面
-        function openEditapiMapping(data) {
+        function openEditApiMapping(data) {
             mainIndex = layer.open({
                 type: 1,
-                title: data == null ? '添加用户' : '编辑用户',
+                title: data == null ? '添加路由' : '编辑路由',
                 content: $("#saveOrUpdateDiv"),
                 area: ['800px', '500px'],
                 skin:'open-class',
@@ -299,6 +303,8 @@
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
+                    }else {
+                        $("#dataFrm")[0].reset()
                     }
                 }
             });
