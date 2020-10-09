@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.ApiSystemparamMapper">
+    <select id="getApiSystemparamById" resultType="ApiSystemparam" parameterType="int">
+        select id,netName,version,description,author,homePage,serverEn,dbVersion,maxUpload,userLimit,powerby,record
+          from api_systemparam
+    </select>
+
+    <update id="updateApiSystemparam" parameterType="ApiSystemparam">
+        update api_systemparam set
+        <trim suffixOverrides=",">
+            <if test="netName!=null and netName!=''">
+                netName=#{netName},
+            </if>
+            <if test="version!=null and version!=''">
+                version=#{version},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            <if test="author!=null and author!=''">
+                author=#{author},
+            </if>
+            <if test="homePage!=null and homePage!=''">
+                homePage=#{homePage},
+            </if>
+            <if test="serverEn!=null and serverEn!=''">
+                serverEn=#{serverEn},
+            </if>
+            <if test="dbVersion!=null and dbVersion!=''">
+                dbVersion=#{dbVersion},
+            </if>
+            <if test="maxUpload!=null and maxUpload!=''">
+                maxUpload=#{maxUpload},
+            </if>
+            <if test="userLimit!=null and userLimit!=''">
+                userLimit=#{userLimit},
+            </if>
+            <if test="powerby!=null and powerby!=''">
+                powerby=#{powerby},
+            </if>
+            <if test="record!=null and record!=''">
+                record=#{record},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

@@ -8,14 +8,14 @@ import java.io.Serializable;
 @SuppressWarnings("ALL")
 public class ApiSystemparam implements Serializable {
 
-    private int id;
+    private Integer id;
     private String netName;
     private String version;
     private String description;
     private String author;
     private String homePage;
-    private String server;
-    private String database;
+    private String serverEn;
+    private String dbVersion;
     private String maxUpload;
     private String userLimit;
     private String powerby;
@@ -24,26 +24,26 @@ public class ApiSystemparam implements Serializable {
     public ApiSystemparam() {
     }
 
-    public ApiSystemparam(int id, String netName, String version, String description, String author, String homePage, String server, String database, String maxUpload, String userLimit, String powerby, String record) {
+    public ApiSystemparam(Integer id, String netName, String version, String description, String author, String homePage, String serverEn, String dbVersion, String maxUpload, String userLimit, String powerby, String record) {
         this.id = id;
         this.netName = netName;
         this.version = version;
         this.description = description;
         this.author = author;
         this.homePage = homePage;
-        this.server = server;
-        this.database = database;
+        this.serverEn = serverEn;
+        this.dbVersion = dbVersion;
         this.maxUpload = maxUpload;
         this.userLimit = userLimit;
         this.powerby = powerby;
         this.record = record;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -87,20 +87,20 @@ public class ApiSystemparam implements Serializable {
         this.homePage = homePage;
     }
 
-    public String getServer() {
-        return server;
+    public String getServerEn() {
+        return serverEn;
     }
 
-    public void setServer(String server) {
-        this.server = server;
+    public void setServerEn(String serverEn) {
+        this.serverEn = serverEn;
     }
 
-    public String getDatabase() {
-        return database;
+    public String getDbVersion() {
+        return dbVersion;
     }
 
-    public void setDatabase(String database) {
-        this.database = database;
+    public void setDbVersion(String dbVersion) {
+        this.dbVersion = dbVersion;
     }
 
     public String getMaxUpload() {
@@ -144,8 +144,8 @@ public class ApiSystemparam implements Serializable {
                 ", description='" + description + '\'' +
                 ", author='" + author + '\'' +
                 ", homePage='" + homePage + '\'' +
-                ", server='" + server + '\'' +
-                ", database='" + database + '\'' +
+                ", serverEn='" + serverEn + '\'' +
+                ", dbVersion='" + dbVersion + '\'' +
                 ", maxUpload='" + maxUpload + '\'' +
                 ", userLimit='" + userLimit + '\'' +
                 ", powerby='" + powerby + '\'' +
