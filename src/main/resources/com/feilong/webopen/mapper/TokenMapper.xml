@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.TokenMapper">
+<insert id="insertToken" parameterType="token">
+    insert into token(aid,accessToken,expireTime,startTime)
+      values (#{aid},#{accessToken},#{expireTime},#{startTime})
+</insert>
+
+    <sql id="getToken">
+        select id,aid,accessToken,expireTime,startTime
+          from token
+    </sql>
+    <select id="findTokenByToken" parameterType="string" resultType="token">
+        <include refid="getToken"/>
+         where
+             <if test="accessToken!=null and accessToken!=''">accessToken=#{accessToken}</if>
+    </select>
+
+    <select id="findTokenList" resultType="token">
+        <include refid="getToken"/>
+    </select>
+</mapper>

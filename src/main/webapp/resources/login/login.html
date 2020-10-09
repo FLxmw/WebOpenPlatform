@@ -16,7 +16,7 @@
 <body class="loginBody">
 <form class="layui-form">
     <div class="login_face"><img src="../images/face.jpg" class="userAvatar"></div>
-    <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius" style="font-size: 25px; margin-bottom: 15px; co">开放平台登录系统</div>
+    <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius" style="font-size: 25px; margin-bottom: 15px; ">开放平台登录系统</div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
         <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required" name="username">
@@ -63,9 +63,11 @@
                     method:'POST',
                     data:data.field,
                     success:function (data) {
-                        console.log(data);
+                        alert(data.result);
                         if (data.status){
+                            window.sessionStorage.setItem("access_token",data.result);
                             window.location.href='../index.html';
+                            layer.msg(data.message);
                         }else {
                             layer.msg(data.message);
                         }

@@ -26,9 +26,9 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <!--拦截所有controller-->
-            <mvc:mapping path="/**" />
+            <mvc:mapping path="/admin/*" />
             <!--login不拦截-->
-            <mvc:exclude-mapping path="/admin/login/"/>
+            <mvc:exclude-mapping path="/admin/login"/>
             <bean class="com.feilong.webopen.interceptor.TokenInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>

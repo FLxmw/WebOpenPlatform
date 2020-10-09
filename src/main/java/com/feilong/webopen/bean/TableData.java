@@ -11,7 +11,7 @@ import java.util.List;
 @SuppressWarnings("ALL")
 public class TableData<T> implements Serializable {
     private int code;
-    private String msg;
+    private String msg = "";
     private long count;
     private List<T> data;
 
@@ -21,6 +21,11 @@ public class TableData<T> implements Serializable {
     public TableData(int code, String msg, long count, List<T> data) {
         this.code = code;
         this.msg = msg;
+        this.count = count;
+        this.data = data;
+    }
+
+    public TableData(long count, List<T> data) {
         this.count = count;
         this.data = data;
     }
