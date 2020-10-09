@@ -3,6 +3,7 @@ package com.feilong.webopen.controller;
 import com.feilong.webopen.bean.AjaxMessage;
 import com.feilong.webopen.entity.Admin;
 import com.feilong.webopen.service.AdminService;
+import com.feilong.webopen.utils.JwtUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +32,8 @@ public class AdminController {
         }
         System.out.println(loginAdmin);
         if (loginAdmin != null) {
-            return new AjaxMessage(true, "登录成功！");
+            String token = JwtUtil.sign(loginAdmin.getUsername(), loginAdmin.getPassword());
+            return new AjaxMessage(true, "登录成功！",token);
         }
         return new AjaxMessage(false, "登录失败，请检查用户名或密码是否有误！");
     }

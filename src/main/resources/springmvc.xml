@@ -23,18 +23,15 @@
     <mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
 
 
-    <!--&lt;!&ndash;利用freemarkerView解析器解析html视图&ndash;&gt;-->
-    <!--<bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean"></bean>-->
-    <!--<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">-->
-    <!--<property name="exposeRequestAttributes" value="true"/>-->
-    <!--<property name="exposeSessionAttributes" value="true"/>-->
-    <!--<property name="viewClass" >-->
-        <!--<value>org.springframework.web.servlet.view.freemarker.FreeMarkerView</value>-->
-    <!--</property>-->
-    <!--<property name="cache"><value>true</value></property>-->
-    <!--<property name="suffix"><value>.html</value></property>-->
-    <!--<property name="contentType"><value>text/html; charset=UTF-8</value></property>-->
-    <!--</bean>-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--拦截所有controller-->
+            <mvc:mapping path="/**" />
+            <!--login不拦截-->
+            <mvc:exclude-mapping path="/admin/login/"/>
+            <bean class="com.feilong.webopen.interceptor.TokenInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
     <!--开启mvc注解的支持-->
     <mvc:annotation-driven/>
 </beans>
