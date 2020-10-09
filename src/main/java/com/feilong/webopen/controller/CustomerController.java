@@ -25,8 +25,8 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping("/addCustomer")
-    public AjaxMessage addCustomer(@RequestBody Customer customer){
+    @PostMapping("/addCustomer")
+    public AjaxMessage addCustomer( Customer customer){
         System.out.println(customer);
         try {
             customerService.insertCustomer(customer);
@@ -37,8 +37,8 @@ public class CustomerController {
         return new AjaxMessage(false,"添加失败！");
     }
 
-    @RequestMapping("/updateCustomer")
-    public AjaxMessage updateCustomer(@RequestBody Customer customer){
+    @PostMapping("/updateCustomer")
+    public AjaxMessage updateCustomer( Customer customer){
         System.out.println(customer);
         try {
             customerService.updateCustomer(customer);
@@ -49,10 +49,10 @@ public class CustomerController {
         return new AjaxMessage(false,"修改失败！");
     }
     @RequestMapping("/deleteCustomer")
-    public AjaxMessage deleteCustomer(int id){
-        System.out.println(id);
+    public AjaxMessage deleteCustomer(long[] ids){
+        System.out.println(ids);
         try {
-            customerService.deleteCustomerById(id);
+            customerService.deleteCustomerById(ids);
             return new AjaxMessage(true,"删除成功！");
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,8 +31,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomerById(int id) {
-      customerMapper.deleteCustomerById(id);
+    public void deleteCustomerById(long[] ids) {
+      customerMapper.deleteCustomerById(ids);
     }
 
     @Override

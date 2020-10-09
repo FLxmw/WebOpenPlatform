@@ -3,10 +3,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.feilong.webopen.mapper.AppInfoMapper">
 
-
     <insert id="insertAppInfo" parameterType="appInfo">
-       INSERT INTO app_info (appName,corpName,appKey,appSecret,redirectUrl,`limit`,description,cusId)
-        VALUES (#{appName},#{corpName},#{appKey},#{appSecret},#{redirectUrl},#{limit},#{description},#{cusId})
+        <!--得到新增数据后主键的id值,在执行插入语句后执行-->
+        <selectKey keyColumn="id" keyProperty="id" order="AFTER" resultType="int">
+            select LAST_INSERT_ID()
+        </selectKey>
+       INSERT INTO app_info (appName,corpName,appKey,appSecret,redirectUrl,`limit`,description,cusId,state)
+        VALUES (#{appName},#{corpName},#{appKey},#{appSecret},#{redirectUrl},#{limit},#{description},#{cusId},#{state})
    </insert>
 
     <update id="updateAppInfo" parameterType="appInfo">
@@ -35,6 +38,9 @@
             </if>
             <if test="cusId!=null">
                 cusId=#{cusId},
+            </if>
+            <if test="state!=null">
+                state=#{state},
             </if>
         </trim>
         where id=#{id}

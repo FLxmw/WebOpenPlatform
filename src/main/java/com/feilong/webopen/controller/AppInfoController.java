@@ -27,8 +27,8 @@ public class AppInfoController {
     @Autowired
     private CustomerService customerService;
 
-    @RequestMapping("/addAppInfo")
-    public AjaxMessage addAppInfo(@RequestBody AppInfo appInfo) {
+    @PostMapping("/addAppInfo")
+    public AjaxMessage addAppInfo(AppInfo appInfo) {
         try {
             appInfoService.insertAppInfo(appInfo);
             return new AjaxMessage(true, "添加成功！");
@@ -38,7 +38,7 @@ public class AppInfoController {
         }
     }
 
-    @RequestMapping("/updateAppInfo")
+    @PostMapping("/updateAppInfo")
     public AjaxMessage updateAppInfo(AppInfo appInfo) {
         try {
             appInfoService.updateAppInfo(appInfo);

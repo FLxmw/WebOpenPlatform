@@ -17,7 +17,7 @@ public interface CustomerMapper {
 
     void updateCustomer(Customer customer);
 
-    void deleteCustomerById(int id);
+    void deleteCustomerById(long[] ids);
 
     Customer findCustomerById(int id);
 
