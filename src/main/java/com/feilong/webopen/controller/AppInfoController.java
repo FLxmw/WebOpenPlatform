@@ -7,7 +7,6 @@ import com.feilong.webopen.entity.Customer;
 import com.feilong.webopen.service.AppInfoService;
 import com.feilong.webopen.service.CustomerService;
 import com.github.pagehelper.PageInfo;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.Appinfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

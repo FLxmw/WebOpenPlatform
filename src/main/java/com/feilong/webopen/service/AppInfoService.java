@@ -16,8 +16,6 @@ public interface AppInfoService {
 
     void updateAppInfo(AppInfo appInfo);
 
-//    void deleteAppInfoById(int id);
-
     void deleteAppInfoByIds(long[] ids);
 
     AppInfo getAppInfoById(int id);

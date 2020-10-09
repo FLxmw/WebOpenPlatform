@@ -6,7 +6,7 @@ import java.io.Serializable;
 @SuppressWarnings("ALL")
 public class ApiMapping implements Serializable {
 
-  private int id;
+  private Integer id;
   private String gatewayApiName;
   private String insideApiUrl;
   private Integer state;
@@ -19,7 +19,7 @@ public class ApiMapping implements Serializable {
   public ApiMapping() {
   }
 
-  public ApiMapping(int id, String gatewayApiName, String insideApiUrl, Integer state, String description, String serviceId, String idempotents, String needfee) {
+  public ApiMapping(Integer id, String gatewayApiName, String insideApiUrl, Integer state, String description, String serviceId, String idempotents, String needfee) {
     this.id = id;
     this.gatewayApiName = gatewayApiName;
     this.insideApiUrl = insideApiUrl;
@@ -30,11 +30,11 @@ public class ApiMapping implements Serializable {
     this.needfee = needfee;
   }
 
-  public int getId() {
+  public Integer getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(Integer id) {
     this.id = id;
   }
 
