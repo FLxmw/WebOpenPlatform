@@ -26,29 +26,16 @@
 		"spread": false,
 		"children": [
 			{
-				"title": "汽车出租",
+				"title": "路由管理",
 				"icon": "&#xe61c;",
-				"href": "page/404.html",
+				"href": "page/man/api_mapping.jsp",
 				"spread": false
 			},
 			{
-				"title": "出租单管理",
-				"icon": "&#xe609;",
-				"href": "page/login/login.html",
-				"spread": false
-			},
-			{
-				"title": "汽车入库",
+				"title": "充值管理",
 				"icon": "&#xe61c;",
-				"href": "page/404.html",
+				"href": "page/man/recharge.jsp",
 				"spread": false
-			},
-			{
-				"title": "检查单管理",
-				"icon": "&#xe609;",
-				"href": "page/login/login.html",
-				"spread": false,
-				"target": "_blank"
 			}
 		]
 	},
@@ -59,30 +46,23 @@
 		"spread": false,
 		"children": [
 			{
-				"title": "菜单管理",
+				"title": "系统参数管理",
 				"icon": "&#xe61c;",
-				"href": "page/404.html",
+				"href": "page/man/api_system_param.jsp",
 				"spread": false
 			},
 			{
-				"title": "角色管理",
+				"title": "Token管理",
 				"icon": "&#xe609;",
-				"href": "page/login/login.html",
+				"href": "page/man/token.jsp",
 				"spread": false,
-				"target": "_blank"
 			},
 			{
-				"title": "用户管理",
+				"title": "系统日志",
 				"icon": "&#xe609;",
-				"href": "page/login/login.html",
+				"href": "page/man/api_system_log.jsp",
 				"spread": false,
 				"target": "_blank"
-			},
-			{
-				"title": "日志管理",
-				"icon": "&#xe609;",
-				"href": "page/login/login.html",
-				"spread": false
 			},
 			{
 				"title": "系统公告",
