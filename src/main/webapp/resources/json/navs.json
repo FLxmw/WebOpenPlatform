@@ -27,13 +27,13 @@
 		"children": [
 			{
 				"title": "路由管理",
-				"icon": "&#xe61c;",
+				"icon": "&#xe857;",
 				"href": "page/man/api_mapping.jsp",
 				"spread": false
 			},
 			{
 				"title": "充值管理",
-				"icon": "&#xe61c;",
+				"icon": "&#xe65e;",
 				"href": "page/man/recharge.jsp",
 				"spread": false
 			}
@@ -47,19 +47,19 @@
 		"children": [
 			{
 				"title": "系统参数管理",
-				"icon": "&#xe61c;",
+				"icon": "&#xe631;",
 				"href": "page/man/api_system_param.jsp",
 				"spread": false
 			},
 			{
 				"title": "Token管理",
-				"icon": "&#xe609;",
+				"icon": "&#xe674;",
 				"href": "page/man/token.jsp",
 				"spread": false
 			},
 			{
 				"title": "系统日志",
-				"icon": "&#xe609;",
+				"icon": "&#xe6b2;",
 				"href": "page/man/api_system_log.jsp",
 				"spread": false,
 				"target": "_blank"

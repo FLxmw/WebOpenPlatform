@@ -1,109 +1,113 @@
 package com.feilong.webopen.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 
 @SuppressWarnings("ALL")
 public class Recharge implements Serializable {
 
-  private Integer id;
-  private Integer cusId;
-  private String orderId;
-  private Date createtime;
-  private Date updatetime;
-  private Integer money;
-  private Integer state;
-  private Integer paymenttype;
+    private Integer id;
+    private Integer cusId;
+    private String orderId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date updateTime;
+    private Integer money;
+    private Integer state;
+    private Integer paymentType;
 
-  public Recharge() {
-  }
+    public Recharge() {
+    }
 
-  public Recharge(Integer id, Integer cusId, String orderId, Date createtime, Date updatetime, Integer money, Integer state, Integer paymenttype) {
-    this.id = id;
-    this.cusId = cusId;
-    this.orderId = orderId;
-    this.createtime = createtime;
-    this.updatetime = updatetime;
-    this.money = money;
-    this.state = state;
-    this.paymenttype = paymenttype;
-  }
+    public Recharge(Integer id, Integer cusId, String orderId, Date createTime, Date updateTime, Integer money, Integer state, Integer paymentType) {
+        this.id = id;
+        this.cusId = cusId;
+        this.orderId = orderId;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+        this.money = money;
+        this.state = state;
+        this.paymentType = paymentType;
+    }
 
-  public Integer getId() {
-    return id;
-  }
+    public Integer getId() {
+        return id;
+    }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-  public Integer getCusId() {
-    return cusId;
-  }
+    public Integer getCusId() {
+        return cusId;
+    }
 
-  public void setCusId(Integer cusId) {
-    this.cusId = cusId;
-  }
+    public void setCusId(Integer cusId) {
+        this.cusId = cusId;
+    }
 
-  public String getOrderId() {
-    return orderId;
-  }
+    public String getOrderId() {
+        return orderId;
+    }
 
-  public void setOrderId(String orderId) {
-    this.orderId = orderId;
-  }
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-  public Date getCreatetime() {
-    return createtime;
-  }
+    public Date getCreateTime() {
+        return createTime;
+    }
 
-  public void setCreatetime(Date createtime) {
-    this.createtime = createtime;
-  }
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
-  public Date getUpdatetime() {
-    return updatetime;
-  }
+    public Date getUpdateTime() {
+        return updateTime;
+    }
 
-  public void setUpdatetime(Date updatetime) {
-    this.updatetime = updatetime;
-  }
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
-  public Integer getMoney() {
-    return money;
-  }
+    public Integer getMoney() {
+        return money;
+    }
 
-  public void setMoney(Integer money) {
-    this.money = money;
-  }
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
 
-  public Integer getState() {
-    return state;
-  }
+    public Integer getState() {
+        return state;
+    }
 
-  public void setState(Integer state) {
-    this.state = state;
-  }
+    public void setState(Integer state) {
+        this.state = state;
+    }
 
-  public Integer getPaymenttype() {
-    return paymenttype;
-  }
+    public Integer getPaymentType() {
+        return paymentType;
+    }
 
-  public void setPaymenttype(Integer paymenttype) {
-    this.paymenttype = paymenttype;
-  }
+    public void setPaymentType(Integer paymentType) {
+        this.paymentType = paymentType;
+    }
 
-  @Override
-  public String toString() {
-    return "Recharge{" +
-            "id=" + id +
-            ", cusId=" + cusId +
-            ", orderId='" + orderId + '\'' +
-            ", createtime=" + createtime +
-            ", updatetime=" + updatetime +
-            ", money=" + money +
-            ", state=" + state +
-            ", paymenttype=" + paymenttype +
-            '}';
-  }
+    @Override
+    public String toString() {
+        return "Recharge{" +
+                "id=" + id +
+                ", cusId=" + cusId +
+                ", orderId='" + orderId + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", money=" + money +
+                ", state=" + state +
+                ", paymentType=" + paymentType +
+                '}';
+    }
 }

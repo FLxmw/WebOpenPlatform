@@ -13,9 +13,11 @@ public class Token implements Serializable {
   private Integer id;
   private Integer aid;
   private String accessToken;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  //这个注解是从后台数据库中拿出的转换的数据传递到前端页面展示
+  //pattern设置格式   timezone  设置时区为东八区
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
   private Date  expireTime;
-  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
   private Date startTime;
 
 

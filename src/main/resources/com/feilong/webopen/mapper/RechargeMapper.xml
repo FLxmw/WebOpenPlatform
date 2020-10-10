@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.RechargeMapper">
+  <insert id="insertRecharge" parameterType="recharge">
+      insert into recharge(cusId, orderId, createTime, updateTime, money, state, paymentType)
+         values (#{cusId},#{orderId},#{createTime},#{updateTime},#{money},#{state},#{paymentType})
+  </insert>
+
+    <update id="updateRecharge" parameterType="recharge">
+        update recharge set
+        <trim suffixOverrides=",">
+            <if test="cusId!=null">cusId=#{cusId},</if>
+            <if test="orderId!=null and orderId!=''">orderId=#{orderId},</if>
+            <if test="createTime!=null">createTime=#{createTime},</if>
+            <if test="updateTime!=null">updateTime=#{updateTime},</if>
+            <if test="money!=null">money=#{money},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="paymentType!=null">paymentType=#{paymentType},</if>
+        </trim>
+          where id = #{id}
+    </update>
+
+    <delete id="deleteRechargeByIds" parameterType="int">
+        delete from recharge
+          where id in
+           <foreach collection="array" item="id" open="(" separator="," close=")">
+               #{id}
+           </foreach>
+    </delete>
+
+    <sql id="getRecharge">
+        select id, cusId, orderId, createTime, updateTime, money, state, paymentType
+         from recharge
+    </sql>
+
+    <select id="getRechargeList" resultType="recharge">
+        <include refid="getRecharge"/>
+    </select>
+
+    <select id="getRechargeById" parameterType="int" resultType="recharge">
+        <include refid="getRecharge"/>
+         <where>
+             <if test="id!=null">id=#{id}</if>
+         </where>
+    </select>
+</mapper>

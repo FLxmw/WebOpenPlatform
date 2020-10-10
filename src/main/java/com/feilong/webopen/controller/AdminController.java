@@ -47,9 +47,11 @@ public class AdminController {
             Token token = new Token();
             token.setAccessToken(strValue);
             token.setAid(loginAdmin.getId());
+            //开始时间  为用户登录的当前时间
             token.setStartTime(new Date());
             long l = System.currentTimeMillis();
-            token.setExpireTime(new Date(l*2));
+            //过期时间  一天
+            token.setExpireTime(new Date(l + JwtUtil.EXPIRE_TIME));
             System.out.println(token);
             try {
                 tokenService.insertToken(token);

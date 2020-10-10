@@ -28,6 +28,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                 return true;
             }
         }
+        response.sendRedirect(request.getContextPath()+"/resources/login/login.html");
 //        ApiResponse apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.AUTH_ERROR);
 //        responseMessage(response,response.getWriter(),apiResponse);
         return false;
