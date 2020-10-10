@@ -72,52 +72,35 @@
     <form class="layui-form " action="" method="post" lay-filter="dataFrm" id="dataFrm">
         <input type="hidden" hidden="hidden" name="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名:</label>
+            <label class="layui-form-label">用户ID:</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                <input type="text" name="aid" required lay-verify="required" placeholder="请输入用户ID"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">Token</label>
             <div class="layui-input-block">
-                <input type="text" name="nickname" required lay-verify="required" placeholder="请输入公司名称"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
-            <div class="layui-input-block">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                <input type="text" name="accessToken" required lay-verify="required" placeholder="请输入Token通行密钥"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司地址：</label>
+            <label class="layui-form-label">开始时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="address" required lay-verify="required" placeholder="请输入地址"
-                       autocomplete="off"
-                       class="layui-input">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">账户金额(元)：</label>
-            <div class="layui-input-block">
-                <input type="number" name="money" required lay-verify="required" placeholder="请输入账号金额"
+                <input type="text" name="startTime" id="startTime" required lay-verify="required" placeholder="请选择开始时间"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户状态：</label>
+            <label class="layui-form-label">结束时间：</label>
             <div class="layui-input-block">
-                <input type="radio" name="state" title="有效" value="1" checked/>
-                <input type="radio" name="state" title="无效" value="0"/>
+                <input type="text" name="expireTime" id="expireTime" required lay-verify="required" placeholder="请选择结束时间"
+                       autocomplete="off"
+                       class="layui-input">
             </div>
         </div>
     </form>
@@ -127,11 +110,21 @@
 
 <script src="../../layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['jquery', 'layer', 'form', 'table'], function () {
+    layui.use(['jquery', 'layer', 'form', 'table','laydate'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var table = layui.table;
+        var laydate=layui.laydate;
+
+        laydate.render({
+            elem:"#expireTime",
+            type:'datetime'
+        });
+        laydate.render({
+            elem:"#startTime",
+            type:'datetime'
+        });
 
         var tableIns;
         //渲染数据表格
@@ -165,7 +158,7 @@
         table.on("toolbar(tokenTable)", function (obj) {
             switch (obj.event) {
                 case 'add':
-                    openEdittoken(null);
+                    openEditToken(null);
                     break;
                 case 'batchDelete':
                     layer.confirm('你真的要删除选中的吗?', {
@@ -181,7 +174,7 @@
                         $(datas).each(function (index) {
                             console.log(datas[index].id);
                             $.ajax({
-                                url: '${pageContext.request.contextPath}/token/deletetoken?ids=' + datas[index].id,
+                                url: '${pageContext.request.contextPath}/token/deleteToken?ids=' + datas[index].id,
                                 success: function (data) {
                                     if (data.status) {
                                         layer.msg(data.message);
@@ -214,7 +207,7 @@
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/token/deletetoken?ids=' + data.id,
+                        url: '${pageContext.request.contextPath}/token/deleteToken?ids=' + data.id,
                         success: function (data) {
                             if (data.status) {
                                 layer.msg(data.message)
@@ -226,17 +219,17 @@
                     })
                 });
             } else if (layEvent === 'edit') { //编辑
-                openEdittoken(data);
+                openEditToken(data);
             }
         });
 
         var mainIndex;
 
         //打开添加/编辑页面
-        function openEdittoken(data) {
+        function openEditToken(data) {
             mainIndex = layer.open({
                 type: 1,
-                title: data == null ? '添加用户' : '编辑用户',
+                title: data == null ? '添加Token' : '编辑Token',
                 content: $("#saveOrUpdateDiv"),
                 area: ['800px', '500px'],
                 skin:'open-class',
@@ -252,9 +245,11 @@
                 , maxmin: true //是否显示最大化和最小化的按钮 type=1 type=2有效
                 //点击按钮的回调
                 , yes: function (index, layero) {
-                    layer.load(1)
+                    console.log($("#dataFrm").serialize());
+                    console.log(layero);
+                    layer.load(1);
                     $.ajax({
-                        url: '${pageContext.request.contextPath}/token/' + (data == null ? "addtoken" : "updatetoken"),
+                        url: '${pageContext.request.contextPath}/token/' + (data == null ? "addToken" : "updateToken"),
                         data: $("#dataFrm").serialize(),
                         method: 'post',
                         success: function (res) {
@@ -288,20 +283,6 @@
 
         //提交搜索条件表单
         form.on("submit(doSearch)", function (obj) {
-            console.log(obj.field);
-            $.ajax({
-            url:'${pageContext.request.contextPath}/token/search',
-            data:obj.field,
-            method:'POST',
-            success:function (data) {
-            tableIns.reload({
-            page: {
-            curr: 1 //重新从第 1 页开始
-            },
-            where: data.field
-            })
-            }
-            })
         });
     });
 </script>

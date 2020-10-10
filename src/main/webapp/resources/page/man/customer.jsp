@@ -248,6 +248,7 @@
 
         //打开添加/编辑页面
         function openEditCustomer(data) {
+           console.log( $("#dataFrm").serialize());
             mainIndex = layer.open({
                 type: 1,
                 title: data == null ? '添加用户' : '编辑用户',

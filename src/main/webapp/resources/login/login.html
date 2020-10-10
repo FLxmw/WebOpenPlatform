@@ -63,7 +63,6 @@
                     method:'POST',
                     data:data.field,
                     success:function (data) {
-                        alert(data.result);
                         if (data.status){
                             window.sessionStorage.setItem("access_token",data.result);
                             window.location.href='../index.html';
@@ -75,7 +74,6 @@
                 })
             },1000);
         });
-
         //表单输入效果
         $(".loginBody .input-item").click(function(e){
             e.stopPropagation();

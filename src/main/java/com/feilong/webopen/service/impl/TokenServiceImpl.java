@@ -23,9 +23,22 @@ public class TokenServiceImpl implements TokenService {
     private TokenMapper tokenMapper;
     @Autowired
     private AdminMapper adminMapper;
+
     @Override
     public void insertToken(Token token) {
         tokenMapper.insertToken(token);
+    }
+
+    @Override
+    public void updateToken(Token token) {
+        tokenMapper.updateToken(token);
+    }
+
+    @Override
+    public void deleteTokenByIds(long[] ids) {
+        if (ids != null && ids.length > 0) {
+            tokenMapper.deleteTokenByIds(ids);
+        }
     }
 
     @Override
@@ -37,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token findTokenByAccessToken(String accessToken) {
-        return  tokenMapper.findTokenByToken(accessToken);
+        return tokenMapper.findTokenByToken(accessToken);
     }
 
 }

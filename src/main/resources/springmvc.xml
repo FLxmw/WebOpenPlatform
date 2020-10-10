@@ -32,6 +32,14 @@
             <bean class="com.feilong.webopen.interceptor.TokenInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
-    <!--开启mvc注解的支持-->
-    <mvc:annotation-driven/>
+    <!--配置自定义类型转换器-->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean  class="com.feilong.webopen.utils.StringToDateConverterUtil"></bean>
+            </set>
+        </property>
+    </bean>
+    <!--开启Spring对MVC注解的支持-->
+    <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 </beans>

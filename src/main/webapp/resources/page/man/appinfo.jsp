@@ -254,6 +254,7 @@
 
         //打开编辑/添加页面
         function openEditAppInfo(data) {
+            $("#dataFrm").serialize()
             mainIndex = layer.open({
                 type: 1,
                 title: data==null?'添加应用':'编辑应用',

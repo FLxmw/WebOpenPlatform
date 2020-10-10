@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("ALL")
 public class Customer implements Serializable {
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     private String nickname;
@@ -20,7 +20,7 @@ public class Customer implements Serializable {
     public Customer() {
     }
 
-    public Customer(int id, String username, String password, String nickname, String address, int money, int state) {
+    public Customer(Integer id, String username, String password, String nickname, String address, int money, int state) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -30,11 +30,11 @@ public class Customer implements Serializable {
         this.state = state;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -12,6 +12,10 @@ import com.github.pagehelper.PageInfo;
 public interface TokenService {
     void insertToken(Token token);
 
+    void updateToken(Token token);
+
+    void deleteTokenByIds(long[] ids);
+
     PageInfo<Token> getTokenByPage(int page,int limit);
 
     Token findTokenByAccessToken(String accessToken);

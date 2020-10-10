@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -47,7 +48,8 @@ public class AdminController {
             token.setAccessToken(strValue);
             token.setAid(loginAdmin.getId());
             token.setStartTime(new Date());
-            token.setExpireTime("2021-01-01 00:00:00");
+            long l = System.currentTimeMillis();
+            token.setExpireTime(new Date(l*2));
             System.out.println(token);
             try {
                 tokenService.insertToken(token);

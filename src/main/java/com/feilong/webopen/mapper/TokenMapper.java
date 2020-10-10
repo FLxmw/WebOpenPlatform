@@ -14,7 +14,12 @@ import java.util.List;
 public interface TokenMapper {
     void insertToken(Token token);
 
+    void updateToken(Token token);
+
+    void deleteTokenByIds(long[] ids);
+
     Token findTokenByToken(@Param("accessToken") String accessToken);
 
     List<Token> findTokenList();
+
 }

@@ -2,6 +2,7 @@ package com.feilong.webopen.entity;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,7 +13,8 @@ public class Token implements Serializable {
   private Integer id;
   private Integer aid;
   private String accessToken;
-  private String  expireTime;
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+  private Date  expireTime;
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private Date startTime;
 
@@ -20,7 +22,7 @@ public class Token implements Serializable {
   public Token() {
   }
 
-  public Token(Integer id, Integer aid, String accessToken, String expireTime, Date startTime) {
+  public Token(Integer id, Integer aid, String accessToken, Date expireTime, Date startTime) {
     this.id = id;
     this.aid = aid;
     this.accessToken = accessToken;
@@ -52,11 +54,11 @@ public class Token implements Serializable {
     this.accessToken = accessToken;
   }
 
-  public String getExpireTime() {
+  public Date getExpireTime() {
     return expireTime;
   }
 
-  public void setExpireTime(String expireTime) {
+  public void setExpireTime(Date expireTime) {
     this.expireTime = expireTime;
   }
 
@@ -66,5 +68,16 @@ public class Token implements Serializable {
 
   public void setStartTime(Date startTime) {
     this.startTime = startTime;
+  }
+
+  @Override
+  public String toString() {
+    return "Token{" +
+            "id=" + id +
+            ", aid=" + aid +
+            ", accessToken='" + accessToken + '\'' +
+            ", expireTime=" + expireTime +
+            ", startTime=" + startTime +
+            '}';
   }
 }
