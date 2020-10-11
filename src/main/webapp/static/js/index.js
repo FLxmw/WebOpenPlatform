@@ -1,4 +1,6 @@
 var $,tab,dataStr,layer;
+
+console.log( window.localStorage.getItem("access_token"));
 //用于
 layui.config({
 	base : "js/"

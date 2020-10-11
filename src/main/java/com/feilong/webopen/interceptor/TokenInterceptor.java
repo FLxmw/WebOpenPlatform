@@ -6,7 +6,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
 
 /**
  * @author FeiLong
@@ -19,16 +18,18 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         response.setCharacterEncoding("utf-8");
+        request.getLocalName();
         String token = request.getHeader("access_token");
+        System.out.println(token);
         //token不存在
-        if (null != token) {
+        if (token != null) {
             //验证token是否正确
             boolean result = JwtUtil.verify(token);
             if (result) {
                 return true;
             }
         }
-        response.sendRedirect(request.getContextPath()+"/resources/login/login.html");
+        response.sendRedirect(request.getContextPath() + "/static/login/login.jsp");
 //        ApiResponse apiResponse = ApiResponseUtil.getApiResponse(ApiResponseEnum.AUTH_ERROR);
 //        responseMessage(response,response.getWriter(),apiResponse);
         return false;

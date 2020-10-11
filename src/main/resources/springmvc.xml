@@ -20,18 +20,18 @@
         <context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.RestController"/>
     </context:component-scan>
     <!--配置静态资源不过滤-->
-    <mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
+    <mvc:resources mapping="/static/**" location="/static/"></mvc:resources>
 
 
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <!--拦截所有controller-->
-            <mvc:mapping path="/admin/*" />
-            <!--login不拦截-->
-            <mvc:exclude-mapping path="/admin/login"/>
-            <bean class="com.feilong.webopen.interceptor.TokenInterceptor"></bean>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--&lt;!&ndash;&lt;!&ndash;拦截所有controller&ndash;&gt;&ndash;&gt;-->
+            <!--<mvc:mapping path="/user/*" />-->
+            <!--&lt;!&ndash;login不拦截&ndash;&gt;-->
+            <!--<mvc:exclude-mapping path="/user/login"/>-->
+            <!--<bean class="com.feilong.webopen.interceptor.TokenInterceptor"></bean>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
     <!--配置自定义类型转换器-->
     <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">

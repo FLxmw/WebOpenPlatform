@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.UserMapper">
+    <select id="selectUser" parameterType="String" resultType="user">
+        select * from user where  username=#{username} and password=#{password}
+    </select>
+
+    <sql id="getUser">
+        select  id, username, password, email, sex, state, grade, endtime
+          from user
+    </sql>
+    <select id="getUserList" resultType="user">
+        <include refid="getUser"/>
+    </select>
+</mapper>

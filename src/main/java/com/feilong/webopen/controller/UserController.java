@@ -1,18 +1,18 @@
 package com.feilong.webopen.controller;
 
 import com.feilong.webopen.bean.AjaxMessage;
-import com.feilong.webopen.entity.Admin;
+import com.feilong.webopen.bean.TableData;
+import com.feilong.webopen.entity.User;
 import com.feilong.webopen.entity.Token;
-import com.feilong.webopen.service.AdminService;
+import com.feilong.webopen.service.UserService;
 import com.feilong.webopen.service.TokenService;
 import com.feilong.webopen.utils.JwtUtil;
-import org.apache.ibatis.annotations.Param;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 /**
  * @author FeiLong
@@ -21,32 +21,31 @@ import java.util.Date;
  */
 @SuppressWarnings("ALL")
 @RestController
-@RequestMapping("/admin")
-public class AdminController {
+@RequestMapping("/user")
+public class UserController {
     @Autowired
-    private AdminService adminService;
+    private UserService userService;
     @Autowired
     private TokenService tokenService;
-
     @RequestMapping("/login")
-    private AjaxMessage adminLogin(Admin admin) {
-        System.out.println(admin);
-        Admin loginAdmin = null;
+    public AjaxMessage userLogin(User user) {
+        System.out.println(user);
+        User loginUser = null;
         try {
-            loginAdmin = adminService.selectAdmin(admin.getUsername(), admin.getPassword());
+            loginUser = userService.selectUser(user.getUsername(), user.getPassword());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(loginAdmin);
-        if (loginAdmin != null) {
-            String accessToken = JwtUtil.sign(loginAdmin.getUsername(), loginAdmin.getPassword());
+        System.out.println(loginUser);
+        if (loginUser != null) {
+            String accessToken = JwtUtil.sign(loginUser.getUsername(), loginUser.getPassword());
             String str = accessToken.replace(".", ",");
             System.out.println(str);
             String[] split = str.split(",");
             String strValue = split[split.length - 1];
             Token token = new Token();
             token.setAccessToken(strValue);
-            token.setAid(loginAdmin.getId());
+            token.setAid(loginUser.getId());
             //开始时间  为用户登录的当前时间
             token.setStartTime(new Date());
             long l = System.currentTimeMillis();
@@ -61,5 +60,21 @@ public class AdminController {
             return new AjaxMessage(true, "登录成功！", accessToken);
         }
         return new AjaxMessage(false, "登录失败，请检查用户名或密码是否有误！");
+    }
+
+    @RequestMapping("/showTable")
+    public TableData<User> showusers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int limit){
+        TableData tableData=new TableData();
+        PageInfo<User> users = null;
+        try {
+            users = userService.findAllusers(page, limit);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        tableData.setCode(0);
+        tableData.setMsg("成功!");
+        tableData.setCount(users.getTotal());
+        tableData.setData(users.getList());
+        return tableData;
     }
 }

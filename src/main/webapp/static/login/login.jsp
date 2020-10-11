@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <html class="loginHtml">
 <head>
     <meta charset="utf-8">
@@ -10,20 +10,24 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="../favicon.ico">
-    <link rel="stylesheet" href="../layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="../css/public.css" media="all" />
+    <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../css/public.css" media="all"/>
 </head>
 <body class="loginBody">
 <form class="layui-form" style="height:375px;">
     <div class="login_face"><img src="../images/face.jpg" class="userAvatar"></div>
-    <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius" style="font-size: 25px; margin-bottom: 15px; ">开放平台登录系统</div>
+    <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius"
+         style="font-size: 25px; margin-bottom: 15px; ">开放平台登录系统
+    </div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
-        <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input" lay-verify="required" name="username">
+        <input type="text" placeholder="请输入用户名" autocomplete="off" id="userName" class="layui-input"
+               lay-verify="required" name="username">
     </div>
     <div class="layui-form-item input-item">
         <label for="password">密码</label>
-        <input type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input" lay-verify="required" name="password">
+        <input type="password" placeholder="请输入密码" autocomplete="off" id="password" class="layui-input"
+               lay-verify="required" name="password">
     </div>
     <div class="layui-form-item input-item" id="imgCode">
         <label for="code">验证码</label>
@@ -42,52 +46,53 @@
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/cache.js"></script>
 <script type="text/javascript">
-    layui.use(['form','layer','jquery'],function(){
+    layui.use(['form', 'layer', 'jquery'], function () {
         var form = layui.form,
             layer = parent.layer === undefined ? layui.layer : top.layer
         $ = layui.jquery;
 
-        $(".loginBody .seraph").click(function(){
-            layer.msg("这只是做个样式，至于功能，你见过哪个后台能这样登录的？还是老老实实的找管理员去注册吧",{
-                time:5000
+        $(".loginBody .seraph").click(function () {
+            layer.msg("这只是做个样式，至于功能，你见过哪个后台能这样登录的？还是老老实实的找管理员去注册吧", {
+                time: 5000
             });
         })
 
         //登录按钮
-        form.on("submit(login)",function(data){
+        form.on("submit(login)", function (data) {
             console.log(data.field);//当前容器的全部表单字段，名值对形式：{name: value}
-            $(this).text("登录中...").attr("disabled","disabled").addClass("layui-disabled");
-            setTimeout(function(){
+            $(this).text("登录中...").attr("disabled", "disabled").addClass("layui-disabled");
+            setTimeout(function () {
                 $.ajax({
-                    url:'../../admin/login',
-                    method:'POST',
-                    data:data.field,
-                    success:function (data) {
+                    url: '${pageContext.request.contextPath}/user/login',
+                    method: 'POST',
+                    data: data.field,
+                    success: function (data) {
                         alert(data.result);
-                        if (data.status){
-                            window.sessionStorage.setItem("access_token",data.result);
-                            window.location.href='../index.html';
+                        if (data.status) {
+                            window.localStorage.setItem("access_token", data.result);
+                            document.cookie = "access_token=" + data.result;
+                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp';
                             layer.msg(data.message);
-                        }else {
+                        } else {
                             layer.msg(data.message);
                         }
                     }
                 })
-            },1000);
+            }, 1000);
         });
         //表单输入效果
-        $(".loginBody .input-item").click(function(e){
+        $(".loginBody .input-item").click(function (e) {
             e.stopPropagation();
             $(this).addClass("layui-input-focus").find(".layui-input").focus();
         });
-        $(".loginBody .layui-form-item .layui-input").focus(function(){
+        $(".loginBody .layui-form-item .layui-input").focus(function () {
             $(this).parent().addClass("layui-input-focus");
         });
-        $(".loginBody .layui-form-item .layui-input").blur(function(){
+        $(".loginBody .layui-form-item .layui-input").blur(function () {
             $(this).parent().removeClass("layui-input-focus");
-            if($(this).val() != ''){
+            if ($(this).val() != '') {
                 $(this).parent().addClass("layui-input-active");
-            }else{
+            } else {
                 $(this).parent().removeClass("layui-input-active");
             }
         });

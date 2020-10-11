@@ -1,8 +1,8 @@
 package com.feilong.webopen.service.impl;
 
 import com.feilong.webopen.entity.Token;
-import com.feilong.webopen.mapper.AdminMapper;
 import com.feilong.webopen.mapper.TokenMapper;
+import com.feilong.webopen.mapper.UserMapper;
 import com.feilong.webopen.service.TokenService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -22,7 +22,7 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     private TokenMapper tokenMapper;
     @Autowired
-    private AdminMapper adminMapper;
+    private UserMapper userMapper;
 
     @Override
     public void insertToken(Token token) {

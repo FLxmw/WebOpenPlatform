@@ -1,8 +1,10 @@
 package com.feilong.webopen.mapper;
 
-import com.feilong.webopen.entity.Admin;
+import com.feilong.webopen.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * @author FeiLong
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("ALL")
 @Repository
-public interface AdminMapper {
-    Admin selectAdmin(@Param("username") String username, @Param("password") String password);
+public interface UserMapper {
+    User selectUser(@Param("username") String username, @Param("password") String password);
+
+    List<User> getUserList();
 }

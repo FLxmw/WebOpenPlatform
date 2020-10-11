@@ -24,6 +24,11 @@
     <url-pattern>*.html</url-pattern>
   </servlet-mapping>
 
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/static/</url-pattern>
+  </servlet-mapping>
+
   <!--配置前端控制器，加载springmvc配置文件-->
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
