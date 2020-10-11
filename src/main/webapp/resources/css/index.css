@@ -1,6 +1,7 @@
 /*公共样式*/
 .header .layui-nav-child{ z-index:99999; top:60px; left: auto; right: 0;}
-.seraph{ font-size:16px !important;}
+.seraph{ font-size:18px !important;}
+.iconfont{font-size: 20px !important;}
 .main_body{ min-width:320px; }
 .layui-nav .layui-nav-item a{ cursor:pointer;}
 .layui-nav .layui-nav-item>a{ color:rgba(255,255,255,1); max-height:60px;}
