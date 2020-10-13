@@ -67,14 +67,14 @@
                     method: 'POST',
                     data: data.field,
                     success: function (data) {
-                        alert(data.result);
                         if (data.status) {
                             window.localStorage.setItem("access_token", data.result);
                             document.cookie = "access_token=" + data.result;
-                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username='+$("#userName").val();
                             layer.msg(data.message);
+                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username='+$("#userName").val();
                         } else {
                             layer.msg(data.message);
+                            window.location.reload();
                         }
                     }
                 })

@@ -15,4 +15,8 @@ import java.util.List;
 public interface ImageMapper {
     List<Image> getImageList();
 
+    void insertImage(Image image);
+
+    void deleteImageByIds(long[] ids);
+
 }

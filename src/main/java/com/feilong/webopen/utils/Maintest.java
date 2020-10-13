@@ -2,6 +2,7 @@ package com.feilong.webopen.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.UUID;
 
 /**
  * @author FeiLong
@@ -10,10 +11,11 @@ import java.text.SimpleDateFormat;
  */
 public class Maintest {
     public static void main(String[] args) {
-        long l = System.currentTimeMillis();
-        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String format = dateFormat.format(l*2);
-        System.out.println(l);
-        System.out.println(format);
+        String uuid = UUID.randomUUID().toString().replace("-", "").toUpperCase();
+//        System.out.println(uuid);
+        String image = "image1.jpg";
+        String substring = image.substring(0,image.indexOf("."));
+        System.out.println(substring);
+
     }
 }

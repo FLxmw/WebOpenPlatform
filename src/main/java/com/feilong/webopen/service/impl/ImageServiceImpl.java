@@ -22,11 +22,26 @@ public class ImageServiceImpl implements ImageService {
     private ImageMapper imageMapper;
 
     @Override
+    public List<Image> getImageList() {
+        return imageMapper.getImageList();
+    }
+
+    @Override
     public PageInfo<Image> getImagesByPage(int page, int limit) {
-        System.out.println(page + "=====" + limit);
-        System.out.println(imageMapper);
         PageHelper.startPage(page, limit);
         List<Image> imageList = imageMapper.getImageList();
         return new PageInfo<Image>(imageList);
+    }
+
+    @Override
+    public void insertImage(Image image) {
+        imageMapper.insertImage(image);
+    }
+
+    @Override
+    public void deleteImageByIds(long[] ids) {
+        if (ids != null && ids.length > 0) {
+            imageMapper.deleteImageByIds(ids);
+        }
     }
 }

@@ -40,6 +40,13 @@
             </set>
         </property>
     </bean>
+
+    <!--配置文件解析器对象,要求id名称必须是multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置最大上传文件的大小为10M-->
+        <!--<property name="maxUploadSize" value="10485760"></property>-->
+        <property name="maxUploadSize" value="1073741824"></property>
+    </bean>
     <!--开启Spring对MVC注解的支持-->
     <mvc:annotation-driven conversion-service="conversionService"></mvc:annotation-driven>
 </beans>

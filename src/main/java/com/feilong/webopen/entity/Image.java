@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 @SuppressWarnings("ALL")
 public class Image implements Serializable {
-    private Integer id;
+    private Integer pid;
     private String src;
     private String thumb;
     private String alt;
@@ -17,19 +17,19 @@ public class Image implements Serializable {
     public Image() {
     }
 
-    public Image(Integer id, String src, String thumb, String alt) {
-        this.id = id;
+    public Image(Integer pid, String src, String thumb, String alt) {
+        this.pid = pid;
         this.src = src;
         this.thumb = thumb;
         this.alt = alt;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getPid() {
+        return pid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 
     public String getSrc() {
@@ -59,7 +59,7 @@ public class Image implements Serializable {
     @Override
     public String toString() {
         return "Image{" +
-                "id=" + id +
+                "pid=" + pid +
                 ", src='" + src + '\'' +
                 ", thumb='" + thumb + '\'' +
                 ", alt='" + alt + '\'' +

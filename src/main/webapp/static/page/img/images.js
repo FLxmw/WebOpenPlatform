@@ -17,7 +17,7 @@ layui.config({
                 var imgList = [], data = res.data;
                 setTimeout(function () {
                     layui.each(data, function (index, item) {
-                        imgList.push('<li><img style="width: 220px;height: 220px;" layer-src="../../' + item.src + '" src="../../' + item.thumb + '" alt="' + item.alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + item.alt + '"></div><i class="layui-icon img_del">&#xe640;</i></div></li>');
+                        imgList.push('<li><img style="width: 220px;height: 220px;" layer-src="../../' + item.src + '" src="../../' + item.thumb + '" alt="' + item.alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + item.alt + '"></div><input type="hidden" id="pid" value="' + item.pid + '"/><i class="layui-icon img_del">&#xe640;</i></div></li>');
                     });
                     next(imgList.join(''), page < (res.count / imgNums));
                     form.render();
@@ -32,10 +32,12 @@ layui.config({
     });
 
     //多图片上传
-    var uploadInst = upload.render({
+    upload.render({
         elem: '.uploadNewImg',
-        url: '../../json/userface.json',
-        method: 'get',
+        url: '../../../image/uploadImages',
+        accept: 'file',//相当于type属性  文件类型
+        acceptMime: 'image/*',//筛选条件  只显示图片类型
+        field: 'image',//相当于name属性  文件域的字段名
         multiple: true,
         before: function (obj) {
             //预读本地文件示例，不支持ie8
@@ -47,49 +49,106 @@ layui.config({
                 form.render("checkbox");
             });
         }
-        //调用upload()方法执行
-        // , choose: function (obj) {
-        //     obj.preview(function (index, file, result) {
-        //         alert("又开始上传了");
-        //         //对上传失败的单个文件重新上传，一般在某个事件中使用
-        //         // obj.upload(index, file);
-        //     });
-        // }
         //上传接口地址请求成功完毕后触发的成功回调函数
         , done: function (res) {
             //上传完毕
             if (res.code == 0) {
-                alert("成功！")
+                layer.msg(res.msg);
+                window.location.reload();
             } else {
-                alert("失败！")
+                layer.msg(res.msg);
+                parent.location.reload();
             }
         },
         //上传接口地址请求失败完毕后触发的成功回调函数
         error: function (index, upload) {
-            alert("地址请求失败！");
+            layer.msg("地址请求失败！");
             // uploadInst.upload();//重新上传
+            $(".news_search").append("<button class='layui-btn layui-bg-red againUpload'>重新上传</button>")
+            form.render();
         }
     });
-
-    //弹出层
+    //重新上传渲染
+    var uploadInst = upload.render({
+        elem: 'uploadNewImg'
+        , url: '../../../image/uploadImages'
+        , accept: 'file'//相当于type属性  文件类型
+        , acceptMime: 'image/*'//筛选条件  只显示图片类型
+        , field: 'image'//相当于name属性  文件域的字段名
+        , multiple: true
+        , before: function (obj) {
+            //预读本地文件示例，不支持ie8
+            obj.preview(function (index, file, result) {
+                $('#Images').prepend('<li><img layer-src="' + result + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + file.name + '"></div><i class="layui-icon img_del">&#xe640;</i></div></li>')
+                //设置图片的高度
+                $("#Images li img").height($("#Images li img").width());
+                form.render("checkbox");
+            });
+        }
+        , choose: function (obj) {
+            obj.preview(function (index, file, result) {
+                //对上传失败的单个文件重新上传，一般在某个事件中使用
+                obj.upload(index, file);
+            });
+        }
+        //上传接口地址请求成功完毕后触发的成功回调函数
+        , done: function (res) {
+            //上传完毕
+            if (res.code == 0) {
+                layer.msg(res.msg);
+                parent.location.reload();
+            } else {
+                layer.msg(res.msg);
+                parent.location.reload();
+            }
+        },
+        //上传接口地址请求失败完毕后触发的成功回调函数
+        error: function (index, upload) {
+            layer.msg("地址请求失败！");
+            // uploadInst.upload();//重新上传
+            $(".news_search").append("<button class='layui-btn layui-bg-red againUpload'>重新上传</button>")
+            form.render();
+        }
+    });
+    //重新上传
+    $(".againUpload").click(function () {
+        layer.msg("开始重新上传");
+        uploadInst.upload();
+    });
+    //弹出层  点击图片时触发
     $("body").on("click", "#Images img", function () {
         parent.showImg();
-    })
+    });
 
     //删除单张图片
     $("body").on("click", ".img_del", function () {
         var _this = $(this);
-        layer.confirm('确定删除图片"' + _this.siblings().find("input").attr("title") + '"吗？', {
+        layer.confirm('确定删除图片"' + _this.siblings().find("input[type='checkbox']").attr("title") + '"吗？', {
             icon: 3,
             title: '提示信息'
         }, function (index) {
-            _this.parents("li").hide(1000);
-            setTimeout(function () {
-                _this.parents("li").remove();
-            }, 950);
-            layer.close(index);
+            var pid = _this.siblings("input").val();
+            var content;
+            $.ajax({
+                url: '../../../image/deleteImage?ids=' + pid,
+                success: function (res) {
+                    if (res.status) {
+                        content = res.message;
+                        _this.parents("li").hide(1000);
+                        setTimeout(function () {
+                            _this.parents("li").remove();
+                        }, 950);
+                        layer.msg(content);
+                        layer.close(index);
+                    } else {
+                        content = res.message;
+                        layer.msg(content);
+                        layer.close(index);
+                    }
+                }
+            });
         });
-    })
+    });
 
     //全选
     form.on('checkbox(selectAll)', function (data) {
@@ -110,7 +169,7 @@ layui.config({
             $(data.elem).parents('#Images').siblings("blockquote").find('input#selectAll').get(0).checked = false;
         }
         form.render('checkbox');
-    })
+    });
 
     //批量删除
     $(".batchDel").click(function () {
@@ -119,23 +178,44 @@ layui.config({
         if ($checkbox.is(":checked")) {
             layer.confirm('确定删除选中的图片？', {icon: 3, title: '提示信息'}, function (index) {
                 var index = layer.msg('删除中，请稍候', {icon: 16, time: false, shade: 0.8});
-                setTimeout(function () {
-                    //删除数据
-                    $checked.each(function () {
-                        $(this).parents("li").hide(1000);
-                        setTimeout(function () {
-                            $(this).parents("li").remove();
-                        }, 950);
-                    })
-                    $('#Images li input[type="checkbox"],#selectAll').prop("checked", false);
-                    form.render();
-                    layer.close(index);
-                    layer.msg("删除成功");
-                }, 2000);
+                $checked.each(function () {
+                    // console.log($(this).parent().siblings("input").val());
+                    var pid = $(this).parent().siblings("input").val();
+                    var content;
+                    $.ajax({
+                        url: '../../../image/deleteImage?ids=' + pid,
+                        success: function (res) {
+                            if (res.status) {
+                                content = res.message;
+                                tt(content);
+                            } else {
+                                content = res.message;
+                                layer.close(index);
+                                layer.msg(content);
+                                form.render();
+
+                            }
+                        }
+                    });
+                });
+
+                function tt(message) {
+                    $(this).parents("li").hide(1000);
+                    setTimeout(function () {
+                        $(this).parents("li").remove();
+                    }, 950);
+                    setTimeout(function () {
+                        //删除数据
+                        $('#Images li input[type="checkbox"],#selectAll').prop("checked", false);
+                        window.location.reload();
+                        layer.close(index);
+                        layer.msg(message);
+                    }, 2000);
+                }
             })
         } else {
             layer.msg("请选择需要删除的图片");
         }
     })
 
-})
+});
