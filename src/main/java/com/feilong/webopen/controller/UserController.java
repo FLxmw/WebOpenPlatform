@@ -6,6 +6,7 @@ import com.feilong.webopen.entity.User;
 import com.feilong.webopen.entity.Token;
 import com.feilong.webopen.service.UserService;
 import com.feilong.webopen.service.TokenService;
+import com.feilong.webopen.utils.Base64Utils;
 import com.feilong.webopen.utils.JwtUtil;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +28,14 @@ public class UserController {
     private UserService userService;
     @Autowired
     private TokenService tokenService;
+
     @RequestMapping("/login")
     public AjaxMessage userLogin(User user) {
         System.out.println(user);
+        String encodePassword = Base64Utils.encode(user.getPassword());
         User loginUser = null;
         try {
-            loginUser = userService.selectUser(user.getUsername(), user.getPassword());
+            loginUser = userService.selectUser(user.getUsername(), encodePassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,8 +66,8 @@ public class UserController {
     }
 
     @RequestMapping("/showTable")
-    public TableData<User> showusers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int limit){
-        TableData tableData=new TableData();
+    public TableData<User> showusers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int limit) {
+        TableData tableData = new TableData();
         PageInfo<User> users = null;
         try {
             users = userService.findAllusers(page, limit);
@@ -76,5 +79,47 @@ public class UserController {
         tableData.setCount(users.getTotal());
         tableData.setData(users.getList());
         return tableData;
+    }
+
+    @PostMapping("/addUser")
+    public AjaxMessage addUser(User user) {
+        //自动设置添加时间 为当前时间
+        user.setEndtime(new Date());
+        String password = user.getPassword();
+        String encodePassword = Base64Utils.encode(password);
+        user.setPassword(encodePassword);
+        try {
+            userService.insertUser(user);
+            return new AjaxMessage(true, "添加用户成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxMessage(false, "添加用户失败！");
+        }
+    }
+
+    @PostMapping("/updateUser")
+    public AjaxMessage updateUser(User user) {
+        try {
+            String password = user.getPassword();
+            String encodePassword = Base64Utils.encode(password);
+            user.setPassword(encodePassword);
+            userService.updateUserById(user);
+            return new AjaxMessage(true, "修改用户成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxMessage(false, "修改用户失败！");
+        }
+    }
+
+    @GetMapping("/deleteUser")
+    public AjaxMessage deleteUser(long[] ids) {
+        System.out.println(ids);
+        try {
+            userService.deleteUserByIds(ids);
+            return new AjaxMessage(true, "删除用户成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxMessage(false, "删除用户失败！");
+        }
     }
 }

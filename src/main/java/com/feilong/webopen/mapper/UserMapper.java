@@ -14,6 +14,12 @@ import java.util.List;
 @SuppressWarnings("ALL")
 @Repository
 public interface UserMapper {
+    void insertUser(User user);
+
+    void updateUserById(User user);
+
+    void deleteUserByIds(long[] ids);
+
     User selectUser(@Param("username") String username, @Param("password") String password);
 
     List<User> getUserList();

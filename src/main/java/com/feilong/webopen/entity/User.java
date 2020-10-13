@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @SuppressWarnings("ALL")
 public class User implements Serializable {
-    private int id;
+    private Integer id;
     private String username;
     private String password;
     private String email;
@@ -21,11 +21,12 @@ public class User implements Serializable {
     private int grade;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date endtime;
+    private String userDesc;
 
     public User() {
     }
 
-    public User(int id, String username, String password, String email, String sex, int state, int grade, Date endtime) {
+    public User(Integer id, String username, String password, String email, String sex, int state, int grade, Date endtime, String userDesc) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -34,13 +35,14 @@ public class User implements Serializable {
         this.state = state;
         this.grade = grade;
         this.endtime = endtime;
+       this.userDesc=userDesc;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -100,6 +102,14 @@ public class User implements Serializable {
         this.endtime = endtime;
     }
 
+    public String getUserDesc() {
+        return userDesc;
+    }
+
+    public void setUserDesc(String userDesc) {
+        this.userDesc = userDesc;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -111,6 +121,7 @@ public class User implements Serializable {
                 ", state=" + state +
                 ", grade=" + grade +
                 ", endtime=" + endtime +
+                ", userDesc='" + userDesc + '\'' +
                 '}';
     }
 }

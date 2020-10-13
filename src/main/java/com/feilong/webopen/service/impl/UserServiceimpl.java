@@ -22,6 +22,23 @@ public class UserServiceimpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    public void insertUser(User user) {
+        userMapper.insertUser(user);
+    }
+
+    @Override
+    public void updateUserById(User user) {
+        userMapper.updateUserById(user);
+    }
+
+    @Override
+    public void deleteUserByIds(long[] ids) {
+        if (ids != null && ids.length > 0) {
+            userMapper.deleteUserByIds(ids);
+        }
+    }
+
+    @Override
     public User selectUser(String username, String password) {
         User User = userMapper.selectUser(username, password);
         return User;

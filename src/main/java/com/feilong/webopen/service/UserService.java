@@ -11,6 +11,13 @@ import com.github.pagehelper.PageInfo;
  */
 @SuppressWarnings("ALL")
 public interface UserService {
+
+    void insertUser(User user);
+
+    void updateUserById(User user);
+
+    void deleteUserByIds(long[] ids);
+
     User selectUser(String username, String password);
 
     PageInfo<User> findAllusers(int page, int limit);

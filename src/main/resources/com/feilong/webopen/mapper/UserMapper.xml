@@ -7,10 +7,54 @@
     </select>
 
     <sql id="getUser">
-        select  id, username, password, email, sex, state, grade, endtime
+        select  id, username, password, email, sex, state, grade, endtime,userDesc
           from user
     </sql>
     <select id="getUserList" resultType="user">
         <include refid="getUser"/>
     </select>
+
+    <insert id="insertUser" parameterType="user">
+        insert into user(username, password, email, sex, state, grade, endtime, userDesc)
+          values (#{username},#{password},#{email},#{sex},#{state},#{grade},#{endtime},#{userDesc})
+    </insert>
+
+    <update id="updateUserById" parameterType="user">
+        update user set
+        <trim suffixOverrides=",">
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="password!=null and password!=''">
+                password=#{password},
+            </if>
+            <if test="email!=null and email!=''">
+                email=#{email},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="state!=null">
+                state=#{state},
+            </if>
+            <if test="grade!=null">
+                grade=#{grade},
+            </if>
+            <if test="endtime!=null">
+                endtime=#{endtime},
+            </if>
+            <if test="userDesc!=null and userDesc!=''">
+                userDesc=#{userDesc},
+            </if>
+        </trim>
+       where id = #{id}
+    </update>
+
+    <delete id="deleteUserByIds" parameterType="int">
+        delete from user
+         where id in
+          <foreach collection="array" item="id" open="(" separator="," close=")">
+              #{id}
+          </foreach>
+    </delete>
 </mapper>

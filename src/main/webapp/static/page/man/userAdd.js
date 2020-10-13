@@ -1,5 +1,5 @@
 layui.use(['form','layer'],function(){
-    var form = layui.form
+    var form = layui.form;
         layer = parent.layer === undefined ? layui.layer : top.layer,
         $ = layui.jquery;
 
@@ -25,8 +25,8 @@ layui.use(['form','layer'],function(){
             //刷新父页面
             parent.location.reload();
         },2000);
-        return false;
-    })
+        // return false;
+    });
 
     //格式化时间
     function filterTime(val){
@@ -40,4 +40,4 @@ layui.use(['form','layer'],function(){
     var time = new Date();
     var submitTime = time.getFullYear()+'-'+filterTime(time.getMonth()+1)+'-'+filterTime(time.getDate())+' '+filterTime(time.getHours())+':'+filterTime(time.getMinutes())+':'+filterTime(time.getSeconds());
 
-})
+});
