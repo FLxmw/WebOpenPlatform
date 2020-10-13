@@ -12,15 +12,17 @@ public class ImageData {
     private String title;
     private String id;
     private Integer start;
+    private long count;
     private List data;
 
     public ImageData() {
     }
 
-    public ImageData(String title, String id, Integer start, List data) {
+    public ImageData(String title, String id, Integer start, long count, List data) {
         this.title = title;
         this.id = id;
         this.start = start;
+        this.count = count;
         this.data = data;
     }
 
@@ -56,12 +58,21 @@ public class ImageData {
         this.data = data;
     }
 
+    public long getCount() {
+        return count;
+    }
+
+    public void setCount(long count) {
+        this.count = count;
+    }
+
     @Override
     public String toString() {
         return "ImageData{" +
                 "title='" + title + '\'' +
                 ", id='" + id + '\'' +
                 ", start=" + start +
+                ", count=" + count +
                 ", data=" + data +
                 '}';
     }

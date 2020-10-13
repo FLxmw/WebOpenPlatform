@@ -1,5 +1,6 @@
 package com.feilong.webopen.mapper;
 
+import com.feilong.webopen.entity.Image;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,5 +13,6 @@ import java.util.List;
 @SuppressWarnings("ALL")
 @Repository
 public interface ImageMapper {
+    List<Image> getImageList();
 
 }

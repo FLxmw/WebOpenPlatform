@@ -8,23 +8,18 @@ layui.config({
         $ = layui.jquery;
 
     //流加载图片
-    var imgNums = 15;  //单页显示图片数量
+    var imgNums = 10;  //单页显示图片数量
     flow.load({
         elem: '#Images', //流加载容器
         done: function (page, next) { //加载页面的图片
-            alert(page);
-            alert(next);
-            $.get("../../../image/showImages?page="+page, function (res) {
+            $.get("../../../image/showImages?page=" + page + "&limit=" + imgNums, function (res) {
                 //模拟插入
                 var imgList = [], data = res.data;
-                alert("length:" + data.length);
-                var maxPage = imgNums * page < data.length ? imgNums * page : data.length;
-                alert(maxPage);
                 setTimeout(function () {
-                    for (var i = imgNums * (page - 1); i < maxPage; i++) {
-                        imgList.push('<li><img layer-src="../../' + data[i].src + '" src="../../' + data[i].thumb + '" alt="' + data[i].alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + data[i].alt + '"></div><i class="layui-icon img_del">&#xe640;</i></div></li>');
-                    }
-                    next(imgList.join(''), page < (data.length / imgNums));
+                    layui.each(data, function (index, item) {
+                        imgList.push('<li><img style="width: 220px;height: 220px;" layer-src="../../' + item.src + '" src="../../' + item.thumb + '" alt="' + item.alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + item.alt + '"></div><i class="layui-icon img_del">&#xe640;</i></div></li>');
+                    });
+                    next(imgList.join(''), page < (res.count / imgNums));
                     form.render();
                 }, 500);
             });
@@ -34,13 +29,13 @@ layui.config({
     //设置图片的高度
     $(window).resize(function () {
         $("#Images li img").height($("#Images li img").width());
-    })
+    });
 
     //多图片上传
     var uploadInst = upload.render({
         elem: '.uploadNewImg',
         url: '../../json/userface.json',
-        method:'get',
+        method: 'get',
         multiple: true,
         before: function (obj) {
             //预读本地文件示例，不支持ie8
