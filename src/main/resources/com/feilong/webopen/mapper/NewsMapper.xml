@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.NewsMapper">
+    <insert id="insertNews" parameterType="news">
+       insert into news values(null , #{newsName}, #{newsAuthor}, #{newsStatus}, #{digest}, #{newsImg}, #{newsLook}, #{newsTop}, #{newsTime}, #{content})
+   </insert>
+
+    <update id="updateNews" parameterType="news">
+        update news set
+        <trim suffixOverrides=",">
+            <if test="newsName!=null and newsName!=''">
+                newsName=#{newsName},
+            </if>
+            <if test="newsAuthor!=null and newsAuthor!=''">
+                newsAuthor=#{newsAuthor},
+            </if>
+            <if test="newsStatus!=null">
+                newsStatus=#{newsStatus},
+            </if>
+            <if test="digest!=null and digest!=''">
+                digest=#{digest},
+            </if>
+            <if test="newsImg!=null and newsImg!=''">
+                newsImg=#{newsImg},
+            </if>
+            <if test="newsLook!=null and newsLook!='' ">
+                newsLook=#{newsLook},
+            </if>
+            <if test="newsTop!=null">
+                newsTop=#{newsTop},
+            </if>
+            <if test="newsTime!=null">
+                newsTime=#{newsTime},
+            </if>
+            <if test="content!=null and content!=''">
+                content=#{content},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteNewsByIds" parameterType="int">
+        delete from news
+        where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+
+    <sql id="getNews">
+        select id, newsName, newsAuthor, newsStatus, digest, newsImg, newsLook, newsTop, newsTime, content
+           from news
+    </sql>
+
+    <select id="getNewsList" resultType="news">
+        <include refid="getNews"/>
+    </select>
+</mapper>

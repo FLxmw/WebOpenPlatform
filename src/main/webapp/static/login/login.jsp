@@ -10,11 +10,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="../favicon.ico">
+    <%--<link rel="stylesheet" href="../aliicon/iconfont.css">--%>
     <link rel="stylesheet" href="../layui/css/layui.css" media="all"/>
     <link rel="stylesheet" href="../css/public.css" media="all"/>
 </head>
 <body class="loginBody">
-<form class="layui-form" style="height:375px;">
+<form class="layui-form" style="height:430px;">
     <div class="login_face"><img src="../images/face.jpg" class="userAvatar"></div>
     <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius"
          style="font-size: 25px; margin-bottom: 15px; ">开放平台登录系统
@@ -38,9 +39,16 @@
         <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
     </div>
     <div class="layui-form-item layui-row">
-        <a href="javascript:;" class="seraph icon-qq layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
-        <a href="javascript:;" class="seraph icon-wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
-        <a href="javascript:;" class="seraph icon-sina layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>
+        <%--<i class="iconfont iconQQ "></i>--%>
+        <ul>
+            <li > <img src="../images/QQ.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li>  <img src="../images/WeChat2%20.png"
+                       class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li > <img src="../images/微博.png"  class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+        </ul>
+        <%--<a href="javascript:;" class="iconfont &#xe667; layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4">&#xe667;</a>--%>
+        <%--<a href="javascript:;" class="wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>--%>
+        <%--<a href="javascript:;" class="weibo layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>--%>
     </div>
 </form>
 <script type="text/javascript" src="../layui/layui.js"></script>
@@ -49,7 +57,7 @@
     layui.use(['form', 'layer', 'jquery'], function () {
         var form = layui.form,
             layer = parent.layer === undefined ? layui.layer : top.layer,
-        $ = layui.jquery;
+            $ = layui.jquery;
 
         $(".loginBody .seraph").click(function () {
             layer.msg("这只是做个样式，至于功能，你见过哪个后台能这样登录的？还是老老实实的找管理员去注册吧", {
@@ -71,7 +79,7 @@
                             window.localStorage.setItem("access_token", data.result);
                             document.cookie = "access_token=" + data.result;
                             layer.msg(data.message);
-                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username='+$("#userName").val();
+                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username=' + $("#userName").val();
                         } else {
                             layer.msg(data.message);
                             window.location.reload();

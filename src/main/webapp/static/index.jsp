@@ -13,7 +13,7 @@
     <meta name="format-detection" content="telephone=no">
     <link rel="icon" href="favicon.ico">
     <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-    <!--<link rel="stylesheet" href="aliicon/iconfont.css">-->
+    <link rel="stylesheet" href="aliicon/iconfont.css">
     <link rel="stylesheet" href="layui/css/layui.css" media="all" />
     <link rel="stylesheet" href="css/index.css" media="all" />
 </head>
@@ -118,7 +118,7 @@
             </ul>
             <div class="layui-tab-content clildFrame">
                 <div class="layui-tab-item layui-show">
-                    <iframe src="page/main.html"></iframe>
+                    <iframe src="page/main.jsp?username=${param.username}"></iframe>
                 </div>
             </div>
         </div>
