@@ -12,6 +12,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 
@@ -29,13 +30,28 @@ public class UserController {
     @Autowired
     private TokenService tokenService;
 
+    @PostMapping("/checkUser")
+    public int checkUser(String username) {
+        System.out.println(username);
+        try {
+            User user = userService.findUserByUsername(username);
+            //不为空不能注册  1
+            if (user != null) {
+                return 1;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     @RequestMapping("/login")
-    public AjaxMessage userLogin(User user) {
-        System.out.println(user);
-        String encodePassword = Base64Utils.encode(user.getPassword());
+    public AjaxMessage userLogin(String username, String password,HttpServletRequest request) {
+        request.getSession().setAttribute("username",username);
+        String encodePassword = Base64Utils.encode(password);
         User loginUser = null;
         try {
-            loginUser = userService.selectUser(user.getUsername(), encodePassword);
+            loginUser = userService.selectUser(username, encodePassword);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -65,6 +81,15 @@ public class UserController {
         return new AjaxMessage(false, "登录失败，请检查用户名或密码是否有误！");
     }
 
+    @RequestMapping("/checkCode")
+    public AjaxMessage checkCode(String code, HttpServletRequest request) {
+        String sessionCode = (String) request.getSession().getAttribute("code");
+        if (code != null && sessionCode != null && code.equals(sessionCode)) {
+            return new AjaxMessage(true, "验证码正确！");
+        }
+        return new AjaxMessage(false, "验证码输入有误，请重新输入");
+    }
+
     @RequestMapping("/showTable")
     public TableData<User> showusers(@RequestParam(defaultValue = "1") int page, @RequestParam(defaultValue = "5") int limit) {
         TableData tableData = new TableData();
@@ -82,19 +107,25 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public AjaxMessage addUser(User user) {
-        //自动设置添加时间 为当前时间
-        user.setEndtime(new Date());
-        String password = user.getPassword();
-        String encodePassword = Base64Utils.encode(password);
-        user.setPassword(encodePassword);
-        try {
-            userService.insertUser(user);
-            return new AjaxMessage(true, "添加用户成功！");
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new AjaxMessage(false, "添加用户失败！");
+    public AjaxMessage addUser(User user, @RequestParam(name = "message") String message, HttpServletRequest request) {
+        String session_message = (String) request.getSession().getAttribute("message");
+        System.out.println(session_message.equals(message));
+        if (message != null && session_message != null && session_message.equals(message)) {
+            //自动设置添加时间 为当前时间
+            user.setEndtime(new Date());
+            String password = user.getPassword();
+            String encodePassword = Base64Utils.encode(password);
+            user.setPassword(encodePassword);
+            try {
+                userService.insertUser(user);
+                return new AjaxMessage(true, "添加用户成功！");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new AjaxMessage(false, "添加用户失败！");
+            }
         }
+        return new AjaxMessage(false, "验证码有误，请重新输入！");
+
     }
 
     @PostMapping("/updateUser")

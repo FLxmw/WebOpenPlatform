@@ -20,5 +20,7 @@ public interface NewsService {
 
     void deleteNewsByIds(long[] ids);
 
-    PageInfo<News> getNewsListByPage(int page,int limit);
+    PageInfo<News> getNewsListByPage(int page, int limit);
+
+    String findContentById(Integer id);
 }

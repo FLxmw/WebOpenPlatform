@@ -106,7 +106,7 @@
                     layer.msg("取消置顶成功！");
                 }
             }, 500);
-        })
+        });
 
         //搜索【此功能需要后台配合，所以暂时没有动态效果演示】
         $(".search_btn").on("click", function () {
@@ -152,7 +152,7 @@
                         });
                     }, 500)
                 }
-            })
+            });
             layui.layer.full(index);
             //改变窗口大小时，重置弹窗的宽高，防止超出可视区域（如F12调出debug的操作）
             $(window).on("resize", function () {
@@ -160,6 +160,7 @@
             })
         }
 
+        //点击添加按钮执行
         $(".addNews_btn").click(function () {
             addNews();
         });
@@ -167,24 +168,32 @@
         //批量删除
         $(".delAll_btn").click(function () {
             var checkStatus = table.checkStatus('newsListTable'),
-                data = checkStatus.data,
-                newsId = [];
+                data = checkStatus.data;
+            console.log(data);
             if (data.length > 0) {
-                for (var i in data) {
-                    newsId.push(data[i].newsId);
-                }
                 layer.confirm('确定删除选中的文章？', {icon: 3, title: '提示信息'}, function (index) {
-                    // $.get("删除文章接口",{
-                    //     newsId : newsId  //将需要删除的newsId作为参数传入
-                    // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                    // })
+                    $(data).each(function (index) {
+                        alert(data[index].id);
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/news/deleteNews?ids=' + data[index].id,
+                            success: function (res) {
+                                if (res.status) {
+                                    tableIns.reload();
+                                    layer.close(index);
+                                    layer.msg(res.message);
+                                } else {
+                                    tableIns.reload();
+                                    layer.close(index);
+                                    layer.msg(res.message);
+                                }
+                            }
+                        });
+                    })
                 })
             } else {
                 layer.msg("请选择需要删除的文章");
             }
-        })
+        });
 
         //列表操作
         table.on('tool(newsList)', function (obj) {
@@ -195,15 +204,45 @@
                 addNews(data);
             } else if (layEvent === 'del') { //删除
                 layer.confirm('确定删除此文章？', {icon: 3, title: '提示信息'}, function (index) {
-                    // $.get("删除文章接口",{
-                    //     newsId : data.newsId  //将需要删除的newsId作为参数传入
-                    // },function(data){
-                    tableIns.reload();
-                    layer.close(index);
-                    // })
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/news/deleteNews?ids=' + data.id,
+                        success: function (res) {
+                            if (res.status) {
+                                tableIns.reload();
+                                layer.close(index);
+                                layer.msg(res.message);
+                            } else {
+                                tableIns.reload();
+                                layer.close(index);
+                                layer.msg(res.message);
+                            }
+                        }
+                    });
                 });
             } else if (layEvent === 'look') { //预览
-                layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问")
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/news/showContent?id=" + data.id,
+                    success: function (res) {
+                        var cons = res.content;
+                        console.log(cons.substring(cons.lastIndexOf('h'), cons.lastIndexOf('<')));
+                        var url = cons.substring(cons.lastIndexOf('h'), cons.lastIndexOf('<'));
+                        layer.open({
+                            type: 2,
+                            title:"文章内容详情",
+                            content: url,
+                            area:['1200px','600px'],//宽高
+                            offset: 'auto',	 //offset默认情况下不用设置。但如果你不想垂直水平居中
+                            icon:1    //只对type=0的效
+                            ,shade:[0.8, '#F8F8FF']
+                            ,shadeClose:true  //点击遮罩是否关闭弹层
+                            ,anim: 4 //设置动画
+                            ,maxmin :true //是否显示最大化和最小化的按钮 type=1 type=2有效
+                            ,success:function(layero, index){
+                                //alert(index);
+                            }
+                        });
+                    }
+                });
             }
         });
 

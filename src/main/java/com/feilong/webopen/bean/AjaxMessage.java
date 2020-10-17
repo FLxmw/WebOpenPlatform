@@ -29,6 +29,10 @@ public class AjaxMessage implements Serializable {
         this.result = result;
     }
 
+    public AjaxMessage(boolean status) {
+
+    }
+
     public boolean isStatus() {
         return status;
     }

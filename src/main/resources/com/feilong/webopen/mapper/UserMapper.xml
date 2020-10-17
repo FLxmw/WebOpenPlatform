@@ -14,6 +14,11 @@
         <include refid="getUser"/>
     </select>
 
+    <select id="findUserByUsername" parameterType="string" resultType="user">
+        <include refid="getUser"/>
+          where username=#{username}
+    </select>
+
     <insert id="insertUser" parameterType="user">
         insert into user(username, password, email, sex, state, grade, endtime, userDesc)
           values (#{username},#{password},#{email},#{sex},#{state},#{grade},#{endtime},#{userDesc})

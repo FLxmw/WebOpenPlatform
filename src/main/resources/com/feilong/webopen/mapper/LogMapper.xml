@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.LogMapper">
+    <insert id="insertLog" parameterType="log">
+      insert into log(url, method, ip, timeConsuming, isAbnormal, operator, operatingTime)
+         values (#{url},#{method},#{ip},#{timeConsuming},#{isAbnormal},#{operator},#{operatingTime})
+  </insert>
+    <sql id="getLog">
+        select id, url, method, ip, timeConsuming, isAbnormal, operator, operatingTime
+          from log
+    </sql>
+    <select id="getLogList" resultType="Log">
+       <include refid="getLog"/>
+    </select>
+</mapper>

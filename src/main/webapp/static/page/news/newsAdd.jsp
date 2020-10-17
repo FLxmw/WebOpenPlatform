@@ -104,8 +104,9 @@
             <hr class="layui-bg-gray"/>
             <div class="layui-right">
                 <a class="layui-btn layui-btn-sm" lay-filter="addNews" lay-submit><i
-                        class="layui-icon">&#xe609;</i>发布</a>
-                <a class="layui-btn layui-btn-primary layui-btn-sm" lay-filter="look" lay-submit>预览</a>
+                        class="layui-icon">&#xe605;</i>发布</a>
+                <button type="reset" class="layui-btn layui-btn-sm layui-btn-normal">
+                    <i class="layui-icon">&#xe669;</i>重置</button>
             </div>
         </div>
     </div>
@@ -120,16 +121,42 @@
             layedit = layui.layedit,
             laydate = layui.laydate,
             $ = layui.jquery;
-        //用于同步编辑器内容到textarea
-        layedit.sync(editIndex);
+
+        //上传服务器
+        layedit.set({
+            uploadImage: {
+                url: '${pageContext.request.contextPath}/image/uploadEditImage' //接口url
+            }
+        });
+        //注意：layedit.set 一定要放在 build 前面，否则配置全局接口将无效。
+        //创建一个编辑器
+        var editIndex = layedit.build('news_content', {
+            height: 535
+        });
+
+        //提交时把值同步到文本域中
+        form.verify({
+            //content富文本域中的lay-verify值
+            content: function (value) {
+                alert(value);
+                return layedit.sync(editIndex);
+            }
+        });
+
 
         //上传缩略图
         upload.render({
             elem: '.thumbBox',
             url: '${pageContext.request.contextPath}/image/uploadImages',
+            field: 'image',
+            accept: 'file',//相当于type属性  文件类型
+            acceptMime: 'image/*',//筛选条件  只显示图片类型
             done: function (res, index, upload) {
-                var num = parseInt(4 * Math.random());  //生成0-4的随机数，随机显示一个头像信息
-                $('.newsImg').attr('src', res.data[num].src);
+                // var num = parseInt(4 * Math.random());  //生成0-4的随机数，随机显示一个头像信息
+                console.log(res);
+                console.log(res.data);
+                console.log(res.data.src);
+                $('.newsImg').attr('src', '../../' + res.data.src);
                 $('.thumbBox').css("background", "#fff");
             }
         });
@@ -177,8 +204,10 @@
             //     }
             // }
         });
+
         form.on("submit(addNews)", function (data) {
-            console.log(data.field);
+            // 执行layedit.build返回的值
+            var desc = layedit.getContent(editIndex).split('<audio controls="controls" style="display: none;"></audio>')[0];
             //截取文章内容中的一部分文字放入文章摘要
             var abstract = layedit.getText(editIndex).substring(0, 50);
             //弹出loading
@@ -191,11 +220,11 @@
                 url: "${param.url}",
                 method: 'post',
                 data: {
-                    id:$(".id").val(),
+                    id: $(".id").val(),
                     newsName: $(".newsName").val(),  //文章标题
-                    newsAuthor:$(".newsAuthor").val(),
+                    newsAuthor: $(".newsAuthor").val(),
                     digest: $(".digest").val(),  //文章摘要
-                    content: $(".content").val(),  //文章内容
+                    content: layedit.getContent(editIndex).split('<audio controls="controls" style="display: none;"></audio>')[0],  //文章内容
                     newsImg: $(".newsImg").attr("src"),  //缩略图
                     classify: '1',    //文章分类
                     newsStatus: $('.newsStatus select').val(),    //发布状态
@@ -220,21 +249,6 @@
             }, 2000);
             return false;
         });
-
-        //预览
-        form.on("submit(look)", function () {
-            layer.alert("此功能需要前台展示，实际开发中传入对应的必要参数进行文章内容页面访问");
-            return false;
-        });
-
-        //创建一个编辑器
-        var editIndex = layedit.build('news_content', {
-            height: 535,
-            uploadImage: {
-                url: "../../json/newsImg.json"
-            }
-        });
-
     });
 </script>
 </body>

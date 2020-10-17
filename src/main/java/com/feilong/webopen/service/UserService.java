@@ -21,4 +21,6 @@ public interface UserService {
     User selectUser(String username, String password);
 
     PageInfo<User> findAllusers(int page, int limit);
+
+    User findUserByUsername(String username);
 }

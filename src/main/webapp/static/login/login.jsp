@@ -15,10 +15,10 @@
     <link rel="stylesheet" href="../css/public.css" media="all"/>
 </head>
 <body class="loginBody">
-<form class="layui-form" style="height:430px;">
+<form class="layui-form" style="height:450px;">
     <div class="login_face"><img src="../images/face.jpg" class="userAvatar"></div>
     <div class="layui-center layui-anim-rotate layui-bg-orange layui-btn-radius"
-         style="font-size: 25px; margin-bottom: 15px; ">开放平台登录系统
+         style="font-size: 25px; margin-bottom: 15px; ">飞龙畅想系统世界
     </div>
     <div class="layui-form-item input-item">
         <label for="userName">用户名</label>
@@ -32,25 +32,32 @@
     </div>
     <div class="layui-form-item input-item" id="imgCode">
         <label for="code">验证码</label>
-        <input type="text" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
-        <img src="../images/code.jpg">
+        <input type="text" style="width: 140px" placeholder="请输入验证码" autocomplete="off" id="code" class="layui-input">
+        <img src="${pageContext.request.contextPath}/code/createCode" id="verCode"
+             onclick="this.src='${pageContext.request.contextPath}/code/createCode?code=' + new Date()*1"
+        >
     </div>
     <div class="layui-form-item">
-        <button class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
+        <button id="loginBtn" class="layui-btn layui-block" lay-filter="login" lay-submit>登录</button>
+    </div>
+    <div class="code" align="center">
+        <span style="font-size: 18px;">没有账号？</span> <a id="register" class="layui-icon" href="javascript:;"
+                                                       style="color: red;">立即注册</a>
     </div>
     <div class="layui-form-item layui-row">
         <%--<i class="iconfont iconQQ "></i>--%>
         <ul>
-            <li > <img src="../images/QQ.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
-            <li>  <img src="../images/WeChat2%20.png"
-                       class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
-            <li > <img src="../images/微博.png"  class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li><img src="../images/QQ.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li><img src="../images/WeChat2%20.png"
+                     class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li><img src="../images/微博.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
         </ul>
         <%--<a href="javascript:;" class="iconfont &#xe667; layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4">&#xe667;</a>--%>
         <%--<a href="javascript:;" class="wechat layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>--%>
         <%--<a href="javascript:;" class="weibo layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></a>--%>
     </div>
 </form>
+
 <script type="text/javascript" src="../layui/layui.js"></script>
 <script type="text/javascript" src="../js/cache.js"></script>
 <script type="text/javascript">
@@ -64,30 +71,95 @@
                 time: 5000
             });
         });
-
+        var url = '${pageContext.request.contextPath}/user/login';
+        var method = 'POST';
         //登录按钮
         form.on("submit(login)", function (data) {
+            var status;
             console.log(data.field);//当前容器的全部表单字段，名值对形式：{name: value}
+            var startTime = new Date().getTime();
+            var endTime;
+            var timeConsuming;
+            var codeUrl = '${pageContext.request.contextPath}/user/checkCode?code=' + $("#code").val();
+            var codeMethod = 'GET';
             $(this).text("登录中...").attr("disabled", "disabled").addClass("layui-disabled");
             setTimeout(function () {
                 $.ajax({
-                    url: '${pageContext.request.contextPath}/user/login',
-                    method: 'POST',
-                    data: data.field,
-                    success: function (data) {
-                        if (data.status) {
-                            window.localStorage.setItem("access_token", data.result);
-                            document.cookie = "access_token=" + data.result;
-                            layer.msg(data.message);
-                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username=' + $("#userName").val();
+                    url: url,
+                    method: method,
+                    data: {
+                        username: data.field.username,
+                        password: data.field.password,
+                    },
+                    success: function (res) {
+                        if (res.status) {
+                            endTime = new Date().getTime();
+                            timeConsuming = endTime - startTime;
+                            status = '正常';
+                            addLog(timeConsuming, status, data.field.username);
+                            window.localStorage.setItem("access_token", res.result);
+                            document.cookie = "access_token=" + res.result;
                         } else {
-                            layer.msg(data.message);
+                            status = '异常';
+                            endTime = new Date().getTime();
+                            timeConsuming = endTime - startTime;
+                            addLog(timeConsuming, status, data.field.username);
+                            layer.msg(res.message);
                             window.location.reload();
                         }
                     }
+                });
+                $.ajax({
+                    url: codeUrl,
+                    method: codeMethod,
+                    success: function (res) {
+                        if (res.status) {
+                            window.location.href = '${pageContext.request.contextPath}/static/index.jsp?username=' + $("#userName").val();
+                        } else {
+                            layer.msg(res.message);
+                            $("#code").val(null);
+                            $("#loginBtn").text("登录").removeAttr("disabled", "disabled").removeClass("layui-disabled");
+                        }
+                    }
+
                 })
             }, 1000);
         });
+
+
+        <%--//验证码--%>
+        <%--$("#verCode").click(function () {--%>
+        <%--$("#verCode").src = '${pageContext.request.contextPath}/code/createCode?code=' + new Date();--%>
+        <%--});--%>
+
+        //格式化时间
+        function filterTime(val) {
+            if (val < 10) {
+                return "0" + val;
+            } else {
+                return val;
+            }
+        }
+
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear() + '-' + filterTime(time.getMonth() + 1) + '-' + filterTime(time.getDate()) + ' ' + filterTime(time.getHours()) + ':' + filterTime(time.getMinutes()) + ':' + filterTime(time.getSeconds());
+
+        function addLog(timeConsuming, status, operator) {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/log/addLog',
+                method: 'post',
+                data: {
+                    url: url,
+                    timeConsuming: timeConsuming,
+                    operator: operator,
+                    operatingTime: submitTime,
+                    isAbnormal: status,
+                    method: method
+                }
+            })
+        }
+
         //表单输入效果
         $(".loginBody .input-item").click(function (e) {
             e.stopPropagation();
@@ -104,6 +176,21 @@
                 $(this).parent().removeClass("layui-input-active");
             }
         });
+
+        $("#register").click(function () {
+            layer.open({
+                type: 2,
+                title: '注册用户',
+                content: "register.jsp",
+                area: ['800px', '500px'],//宽高
+                offset: 'auto',	 //offset默认情况下不用设置。但如果你不想垂直水平居中
+                icon: 1    //只对type=0的效
+                , shade: [0.8, '#F8F8FF']
+                , shadeClose: true  //点击遮罩是否关闭弹层
+                , anim: 4 //设置动画
+                , maxmin: true //是否显示最大化和最小化的按钮 type=1 type=2有效
+            })
+        })
     })
 
 </script>

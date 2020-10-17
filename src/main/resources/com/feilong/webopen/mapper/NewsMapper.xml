@@ -56,4 +56,10 @@
     <select id="getNewsList" resultType="news">
         <include refid="getNews"/>
     </select>
+
+    <select id="findContentById" resultType="string" parameterType="java.lang.Integer">
+        select content
+          from news
+          where id=#{id}
+    </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.feilong.webopen.controller;
 
 import com.feilong.webopen.bean.AjaxMessage;
+import com.feilong.webopen.bean.ContentData;
 import com.feilong.webopen.bean.TableData;
 import com.feilong.webopen.entity.News;
 import com.feilong.webopen.service.NewsService;
@@ -33,6 +34,7 @@ public class NewsController {
 
     @PostMapping("/addNews")
     public AjaxMessage addNews(News news) {
+        System.out.println(news);
         try {
             newsService.insertNews(news);
             return new AjaxMessage(true, "文章添加成功！");
@@ -57,6 +59,7 @@ public class NewsController {
 
     @RequestMapping("/deleteNews")
     public AjaxMessage deleteNews(long[] ids) {
+        System.out.println(ids);
         try {
             newsService.deleteNewsByIds(ids);
             return new AjaxMessage(true, "文章删除成功！");
@@ -64,5 +67,17 @@ public class NewsController {
             e.printStackTrace();
             return new AjaxMessage(false, "文章删除失败！");
         }
+    }
+
+    @RequestMapping("/showContent")
+    public ContentData showContent(Integer id) {
+        System.out.println(id);
+        String content = null;
+        try {
+            content = newsService.findContentById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ContentData(content);
     }
 }

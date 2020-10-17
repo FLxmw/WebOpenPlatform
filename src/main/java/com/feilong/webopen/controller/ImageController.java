@@ -15,10 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * @author FeiLong
@@ -47,6 +44,7 @@ public class ImageController {
 
     @RequestMapping("/uploadImages")
     public UploadImageData uploadImages(HttpServletRequest request, MultipartFile image) throws IOException, IOException {
+        System.out.println(image);
         // 获取上传文件的服务器下的目录
         String realPath = request.getSession().getServletContext().getRealPath("/static/images");
         //创建File对象，实例化realPath
@@ -67,6 +65,41 @@ public class ImageController {
         images.setAlt(alt);
         //上传文件
         image.transferTo(new File(file, filename));
+        try {
+            imageService.insertImage(images);
+            return new UploadImageData(0, "图片上传成功！", images);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new UploadImageData(1, "图片上传失败！", null);
+        }
+    }
+
+
+    @RequestMapping("/uploadEditImage")
+    public UploadImageData uploadEditImage(HttpServletRequest request, MultipartFile file) throws IOException, IOException {
+        System.out.println(file);
+        // 获取上传文件的服务器下的目录
+        String realPath = request.getSession().getServletContext().getRealPath("/static/images");
+        //创建File对象，实例化realPath
+        File newFile = new File(realPath);
+        //判断是否存在，不存在则创建
+        if (!newFile.exists()) {
+            newFile.mkdirs();
+        }
+        //获取要上传文件的名称 image1.jpg
+        String filename = file.getOriginalFilename();
+        System.out.println(filename);
+        //将编辑器的图片插入到数据库  插入路径格式 src:../../images/image1.jpg  thumb:images/image1.jpg  alt:image1
+        //这里前端没有设置图片展示的路径所以访问静态资源会404  这里直接设置，然后前端直接返回展示就可
+        String preImage = "../../images/";
+        Image images = new Image();
+        images.setSrc(preImage + filename);
+        images.setThumb(images.getSrc());
+        int lastIndexOf = filename.lastIndexOf(".");
+        String alt = filename.substring(0, lastIndexOf);
+        images.setAlt(alt);
+        //上传文件
+        file.transferTo(new File(newFile, filename));
         try {
             imageService.insertImage(images);
             return new UploadImageData(0, "图片上传成功！", images);

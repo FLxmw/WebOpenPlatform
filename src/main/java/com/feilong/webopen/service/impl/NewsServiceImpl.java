@@ -49,4 +49,9 @@ public class NewsServiceImpl implements NewsService {
         List<News> newsList = newsMapper.getNewsList();
         return new PageInfo<News>(newsList);
     }
+
+    @Override
+    public String findContentById(Integer id) {
+        return newsMapper.findContentById(id);
+    }
 }

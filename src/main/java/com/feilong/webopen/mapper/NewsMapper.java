@@ -18,4 +18,6 @@ public interface NewsMapper {
     void updateNews(News news);
 
     void deleteNewsByIds(long[] ids);
+
+    String findContentById(Integer id);
 }

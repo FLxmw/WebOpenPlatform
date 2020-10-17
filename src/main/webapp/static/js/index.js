@@ -6,7 +6,7 @@ layui.config({
     base: "js/"
 }).extend({
     "bodyTab": "bodyTab"
-})
+});
 layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
     var form = layui.form,
         element = layui.element;
@@ -14,7 +14,7 @@ layui.use(['bodyTab', 'form', 'element', 'layer', 'jquery'], function () {
     layer = parent.layer === undefined ? layui.layer : top.layer;
     tab = layui.bodyTab({
         openTabNum: "50",  //最大可打开窗口数量
-        url: "../../navs/getNavs" //获取菜单json地址
+        url: "../../WebOpenPlatform/navs/getNavs" //获取菜单json地址
     });
 
 
@@ -156,20 +156,20 @@ function addTab(_this) {
 //捐赠弹窗
 function donation() {
     layer.tab({
-        area: ['260px', '367px'],
+        area: ['260px', '350px'],
         tab: [{
             title: "微信",
-            content: "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/wechat.jpg'></div>"
+            content: "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='../static/images/weixin.png'></div>"
         }, {
             title: "支付宝",
-            content: "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='images/alipay.jpg'></div>"
+            content: "<div style='padding:30px;overflow:hidden;background:#d2d0d0;'><img src='../static/images/alipay.jpg'></div>"
         }]
     })
 }
 
 //图片管理弹窗
 function showImg() {
-    $.getJSON('../../image/showPhoto', function (json) {
+    $.getJSON('../../WebOpenPlatform/image/showPhoto', function (json) {
         layer.photos({
             photos: json,
             anim: 5

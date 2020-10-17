@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.feilong.webopen.mapper.LinkMapper">
+    <insert id="insertLink" parameterType="link">
+      insert into link(logo, websiteName, websiteUrl, masterEmail, showAddress, addTime)
+        values (#{logo},#{websiteName},#{websiteUrl},#{masterEmail},#{showAddress},#{addTime})
+  </insert>
+    <update id="updateLink" parameterType="link">
+        update link set
+        <trim suffixOverrides=",">
+            <if test="logo!=null and logo!=''">logo=#{logo},</if>
+            <if test="websiteName!=null and websiteName!=''">websiteName=#{websiteName},</if>
+            <if test="websiteUrl!=null and websiteUrl!=''">websiteUrl=#{websiteUrl},</if>
+            <if test="masterEmail!=null and masterEmail!=''">masterEmail=#{masterEmail},</if>
+            <if test="showAddress!=null">showAddress=#{showAddress},</if>
+            <if test="addTime!=null">addTime=#{addTime},  </if>
+        </trim>
+        where id=#{id}
+    </update>
+    <delete id="deleteLinkByIds" parameterType="int">
+        delete from link
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <sql id="getLink">
+        select id, logo, websiteName, websiteUrl, masterEmail, showAddress, addTime
+          from link
+    </sql>
+    <select id="getLinkList" resultType="link">
+        <include refid="getLink"/>
+    </select>
+</mapper>

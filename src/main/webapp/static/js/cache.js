@@ -71,7 +71,7 @@ layui.use(['form','jquery',"layer"],function() {
                                 '<button class="layui-btn" id="unlock">解锁</button>'+
                             '</div>'+
                             '<p>请输入“123456”，否则不会解锁成功哦！！！</p>'+
-                        '</div>',
+                        '</div>',z
             closeBtn : 0,
             shade : 0.9,
             success : function(){

@@ -50,4 +50,9 @@ public class UserServiceimpl implements UserService {
         List<User> userList = userMapper.getUserList();
         return new PageInfo<User>(userList);
     }
+
+    @Override
+    public User findUserByUsername(String username) {
+        return userMapper.findUserByUsername(username);
+    }
 }
