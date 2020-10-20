@@ -232,21 +232,11 @@
                 layer.close(index);
                 layer.msg("提交成功！");
                 form.render();
+                parent.location.reload();
             }, 2000);
             return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
         });
 
-        //修改密码
-        form.on("submit(changePwd)", function (data) {
-            var index = layer.msg('提交中，请稍候', {icon: 16, time: false, shade: 0.8});
-            setTimeout(function () {
-                layer.close(index);
-                alert("2222");
-                layer.msg("密码修改成功！");
-                $(".pwd").val('');
-            }, 2000);
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
-        })
     })
 </script>
 <script type="text/javascript">
@@ -278,7 +268,7 @@
             $("#phone").val(userInfo.phone); //手机号
             $("#birthday").val(userInfo.birthday); //出生年月
             //填充省份信息，同时调取市级信息列表
-            $.get("../../static/json/address.json", function (addressData) {
+            $.get("${pageContext.request.contextPath}/static/json/address.json", function (addressData) {
                 $(".userAddress select[name='province']").val(userInfo.province); //省
                 var value = userInfo.province;
                 if (value > 0) {

@@ -25,4 +25,6 @@ public interface UserMapper {
     List<User> getUserList();
 
     User findUserByUsername(@Param("username") String username);
+
+    void updatePassword(@Param("id") Integer id, @Param("password") String encodePwd);
 }

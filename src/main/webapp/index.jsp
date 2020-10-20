@@ -22,7 +22,7 @@
     <!-- 顶部 -->
     <div class="layui-header header">
         <div class="layui-main mag0">
-            <a href="#" class="logo">开放平台管理</a>
+            <a href="#" class="logo">望望畅游平台</a>
             <!-- 显示/隐藏菜单 -->
             <a href="javascript:;" class="seraph hideMenu icon-caidan"></a>
             <!-- 顶级菜单 -->
@@ -82,7 +82,7 @@
                                 class="seraph icon-ziliao"
                                 data-icon="icon-ziliao"></i><cite>个人资料</cite></a>
                         </dd>
-                        <dd><a href="javascript:;" data-url="page/uu/changePwd.jsp?username=${param.username}"><i
+                        <dd><a href="javascript:;" data-url="${pageContext.request.contextPath}/static/page/uu/changePwd.jsp?username=${param.username}"><i
                                 class="seraph icon-xiugai"
                                 data-icon="icon-xiugai"></i><cite>修改密码</cite></a>
                         </dd>

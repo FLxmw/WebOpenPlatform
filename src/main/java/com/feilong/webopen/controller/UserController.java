@@ -46,6 +46,32 @@ public class UserController {
         return 0;
     }
 
+    @PostMapping("/getUser")
+    public User getPasswordByName(String username) {
+        User user = null;
+        try {
+            user = userService.findUserByUsername(username);
+            user.setPassword(Base64Utils.decode(user.getPassword()));
+            return user;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @PostMapping("/updatePassword")
+    public AjaxMessage updatePassword(Integer id,String password){
+        System.out.println(password);
+        String encodePwd = Base64Utils.encode(password);
+        try {
+            userService.updatePassword(id,encodePwd);
+            return new AjaxMessage(true,"密码修改成功，建议你使用新密码返回登录！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new AjaxMessage(false,"密码修改失败，请重新修改！");
+        }
+    }
+
     @RequestMapping("/login")
     public AjaxMessage userLogin(String username, String password, HttpServletRequest request) {
         request.getSession().setAttribute("username", username);

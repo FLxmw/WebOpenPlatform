@@ -35,6 +35,7 @@ public class SendMessageController {
         //保证验证码的唯一性需要及时清理
         req.getSession().removeAttribute("message");
         String message = MessageUtil.setRandomNumber();
+        System.out.println(message);
         //把验证码保存在session
         req.getSession().setAttribute("message", message);
         CommonRequest request = new CommonRequest();

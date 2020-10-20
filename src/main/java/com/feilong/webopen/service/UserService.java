@@ -23,4 +23,6 @@ public interface UserService {
     PageInfo<User> findAllusers(int page, int limit);
 
     User findUserByUsername(String username);
+
+    void updatePassword(Integer id, String encodePwd);
 }

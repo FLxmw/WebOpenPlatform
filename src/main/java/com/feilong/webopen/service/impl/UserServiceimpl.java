@@ -55,4 +55,9 @@ public class UserServiceimpl implements UserService {
     public User findUserByUsername(String username) {
         return userMapper.findUserByUsername(username);
     }
+
+    @Override
+    public void updatePassword(Integer id, String encodePwd) {
+        userMapper.updatePassword(id,encodePwd);
+    }
 }
