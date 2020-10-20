@@ -240,7 +240,7 @@
                 type: 1,
                 content: '<div class="admin-header-lock" id="lock-box">' +
                     '<div class="admin-header-lock-img"><img src="static/images/face.jpg" class="userAvatar"/></div>' +
-                    '<div class="admin-header-lock-name" id="lockUserName" style="color: #FF4500;font-size: 20px;">飞龙</div>' +
+                    '<div class="admin-header-lock-name" id="lockUserName" style="color: #FF4500;font-size: 20px;">${param.username}</div>' +
                     '<div class="input_btn">' +
                     '<input type="password" class="admin-header-lock-input layui-input layui-bg-blue" autocomplete="off" placeholder="请输入密码解锁.." name="lockPwd" id="lockPwd" />' +
                     '<button class="layui-btn layui-btn-warm" id="unlock">解锁</button>' +

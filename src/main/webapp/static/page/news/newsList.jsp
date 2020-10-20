@@ -173,7 +173,6 @@
             if (data.length > 0) {
                 layer.confirm('确定删除选中的文章？', {icon: 3, title: '提示信息'}, function (index) {
                     $(data).each(function (index) {
-                        alert(data[index].id);
                         $.ajax({
                             url: '${pageContext.request.contextPath}/news/deleteNews?ids=' + data[index].id,
                             success: function (res) {
@@ -224,8 +223,9 @@
                     url: "${pageContext.request.contextPath}/news/showContent?id=" + data.id,
                     success: function (res) {
                         var cons = res.content;
-                        console.log(cons.substring(cons.lastIndexOf('h'), cons.lastIndexOf('<')));
-                        var url = cons.substring(cons.lastIndexOf('h'), cons.lastIndexOf('<'));
+                        console.log(cons.substring(cons.lastIndexOf('h')));
+                        var url = cons.substring(cons.lastIndexOf('h'));
+                        alert(url);
                         layer.open({
                             type: 2,
                             title:"文章内容详情",

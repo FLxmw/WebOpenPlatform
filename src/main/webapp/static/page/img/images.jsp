@@ -73,7 +73,6 @@
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
-                    alert(result);
                     $('#Images').prepend('<li><img layer-src="' + result + '" src="' + result + '" alt="' + file.name + '" class="layui-upload-img"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + file.name + '"></div><i class="layui-icon img_del">&#xe640;</i></div></li>')
                     //设置图片的高度
                     $("#Images li img").height($("#Images li img").width());

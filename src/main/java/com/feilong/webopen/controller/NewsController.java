@@ -40,7 +40,7 @@ public class NewsController {
             return new AjaxMessage(true, "文章添加成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            return new AjaxMessage(false, "文章添加失败！");
+            return new AjaxMessage(false, "文章添加失败！图片不能为空！");
         }
     }
 
@@ -53,7 +53,7 @@ public class NewsController {
             return new AjaxMessage(true, "文章修改成功！");
         } catch (Exception e) {
             e.printStackTrace();
-            return new AjaxMessage(false, "文章修改失败！");
+            return new AjaxMessage(false, "文章修改失败！图片不能为空");
         }
     }
 

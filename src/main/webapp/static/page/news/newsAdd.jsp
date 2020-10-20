@@ -72,6 +72,7 @@
                     <select name="status" lay-verify="required">
                         <option value="0">保存草稿</option>
                         <option value="1">等待审核</option>
+                        <option value="2">审核通过</option>
                     </select>
                 </div>
             </div>
@@ -138,7 +139,6 @@
         form.verify({
             //content富文本域中的lay-verify值
             content: function (value) {
-                alert(value);
                 return layedit.sync(editIndex);
             }
         });
@@ -209,7 +209,7 @@
             // 执行layedit.build返回的值
             var desc = layedit.getContent(editIndex).split('<audio controls="controls" style="display: none;"></audio>')[0];
             //截取文章内容中的一部分文字放入文章摘要
-            var abstract = layedit.getText(editIndex).substring(0, 50);
+            var abstract = layedit.getText(editIndex).substring(0);
             //弹出loading
             var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             // 实际使用时的提交信息
@@ -224,7 +224,7 @@
                     newsName: $(".newsName").val(),  //文章标题
                     newsAuthor: $(".newsAuthor").val(),
                     digest: $(".digest").val(),  //文章摘要
-                    content: layedit.getContent(editIndex).split('<audio controls="controls" style="display: none;"></audio>')[0],  //文章内容
+                    content: abstract,  //文章内容
                     newsImg: $(".newsImg").attr("src"),  //缩略图
                     classify: '1',    //文章分类
                     newsStatus: $('.newsStatus select').val(),    //发布状态

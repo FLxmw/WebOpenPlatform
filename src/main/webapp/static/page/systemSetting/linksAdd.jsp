@@ -95,7 +95,6 @@
         });
 
         form.on("submit(addLink)", function (data) {
-            alert(img_src);
             //弹出loading
             var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             //ajax返回信息描述

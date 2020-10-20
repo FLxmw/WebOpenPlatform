@@ -24,7 +24,7 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">用户名</label>
         <div class="layui-input-block">
-            <input type="text" name="username" class="layui-input username" lay-verify="required|username"
+            <input type="text" name="username" class="layui-input username" lay-verify="required"
                    placeholder="请输入你的真实用户名">
             <span class="help-block" id="usernameMsg">用户名长度限制为2~5</span>
         </div>
@@ -32,7 +32,7 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">密码</label>
         <div class="layui-input-block">
-            <input type="text" name="password" class="layui-input password" lay-verify="required|password"
+            <input type="text" name="password" class="layui-input password" lay-verify="required"
                    placeholder="请输入密码">
             <span id="helpBlockPassword" class="help-block ">密码是6到20位字母、数字，还可包含@!#$%^&*-字符</span>
         </div>
@@ -40,7 +40,7 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">确认密码</label>
         <div class="layui-input-block">
-            <input type="text" name="password" class="layui-input again_password" lay-verify="required|again_password"
+            <input type="text" name="password" class="layui-input again_password" lay-verify="required"
                    placeholder="请再次输入密码">
             <span id="helpBlockAgain" class="help-block ">两次密码要输入一致哦!</span>
         </div>
@@ -88,7 +88,7 @@
     <div class="layui-form-item layui-row layui-col-xs12">
         <label class="layui-form-label">用户简介</label>
         <div class="layui-input-block">
-            <textarea name="userDesc" placeholder="请用一句话简单的介绍下自己吧" lay-verify="textarea"
+            <textarea name="userDesc" placeholder="请用一句话简单的介绍下自己吧" lay-verify="required"
                       class="layui-textarea userDesc"></textarea>
         </div>
     </div>
@@ -127,22 +127,32 @@
         var messageMethod = 'GET';
         //发送验证码
         $("#sendMessage").click(function () {
-            var messageUrl = '${pageContext.request.contextPath}/send/sendMessage?phone=' + $(".phone").val();
-            layer.msg("验证码已经发送到你的手机，请注意查收！");
-            $.ajax({
-                url: messageUrl,
-                success: function (res) {
-                    if (res.status) {
-                        layer.msg(res.message)
+            var phoneVal = $("#phone").val();
+            var ab = /^[1][3,4,5,7,8][0-9]{9}$/;
+            if (ab.test(phoneVal) == false) {
+                layer.alert("请正确填写手机号码!", { icon: 5, offset: '200px' });
+                return false;
+            }
+            // if (phoneVal == null || phoneVal == '') {
+            //     layer.msg("手机号不能为空！")
+            // } else {
+                var messageUrl = '${pageContext.request.contextPath}/send/sendMessage?phone=' + $(".phone").val();
+                layer.msg("验证码已经发送到你的手机，请注意查收！");
+                $.ajax({
+                    url: messageUrl,
+                    success: function (res) {
+                        if (res.status) {
+                            layer.msg(res.message)
+                        }
                     }
-                }
-            });
-            $(this).addClass("layui-btn layui-btn-disabled layui-btn-radius");
-            $(this).css({
-                "color": "#8B8B83",
-                "width": "150px"
-            });
-            timer = setInterval(startTime, 1000);
+                });
+                $(this).addClass("layui-btn layui-btn-disabled layui-btn-radius");
+                $(this).css({
+                    "color": "#8B8B83",
+                    "width": "150px"
+                });
+                timer = setInterval(startTime, 1000);
+            // }
         });
 
         var lastTime = 60;
@@ -214,7 +224,7 @@
         });
 
         function fnCheckPwd() {
-            var vals = $pwd.val()
+            var vals = $pwd.val();
             // 密码正则匹配表达式
             var rePass = /^[\w!-@#$%^&*]{6,20}$/
             // 正则验证密码输入是否合法
@@ -240,14 +250,18 @@
             // 获取重复密码框输入的数据
             var vals = $pwd.val();
             var cvals = $cpwd.val();
-            if (vals == cvals) {
-                $("#helpBlockAgain").html('密码正确').css("color", "green");
-                $("#registerBtn").removeClass("layui-btn-disabled")
-                flagCpwd = true;
-            } else {
-                $("#helpBlockAgain").html('两次密码输入不一致，请重新输入').css("color", "red");
-                $("#registerBtn").addClass("layui-btn-disabled");
-                flagCpwd = false;
+            if (vals == null || vals == "" || cvals == null || cvals == ""){
+                layer.msg("密码不能为空！")
+            }else {
+                if (vals == cvals) {
+                    $("#helpBlockAgain").html('密码正确').css("color", "green");
+                    $("#registerBtn").removeClass("layui-btn-disabled")
+                    flagCpwd = true;
+                } else {
+                    $("#helpBlockAgain").html('两次密码输入不一致，请重新输入').css("color", "red");
+                    $("#registerBtn").addClass("layui-btn-disabled");
+                    flagCpwd = false;
+                }
             }
         }
 
@@ -269,12 +283,14 @@
                     success: function (res) {
                         if (res.status) {
                             msg = res.message;
+                            top.layer.msg(msg);
                             endTime = new Date().getTime();
                             timeConsuming = endTime - startTime;
                             status = '正常';
                             addLog(timeConsuming, status, data.field.username);
                         } else {
                             msg = res.message;
+                            top.layer.msg(msg);
                             status = '异常';
                             endTime = new Date().getTime();
                             timeConsuming = endTime - startTime;
@@ -284,11 +300,10 @@
                     }
                 });
                 setTimeout(function () {
-                    if (status=='正常') {
+                    if (status == '正常') {
                         layer.closeAll("iframe");
                         window.location.href = 'login.jsp';
                     }
-                    top.layer.msg(msg);
                     top.layer.close(index);
                 }, 2000);
                 return false;

@@ -136,7 +136,7 @@ public class UserController {
     @PostMapping("/addUser")
     public AjaxMessage addUser(User user, @RequestParam(name = "message") String message, HttpServletRequest request) {
         String session_message = (String) request.getSession().getAttribute("message");
-        System.out.println(session_message.equals(message));
+//        System.out.println(session_message.equals(message));
         if (message != null && session_message != null && session_message.equals(message)) {
             //自动设置添加时间 为当前时间
             user.setEndtime(new Date());
@@ -145,10 +145,10 @@ public class UserController {
             user.setPassword(encodePassword);
             try {
                 userService.insertUser(user);
-                return new AjaxMessage(true, "添加用户成功！");
+                return new AjaxMessage(true, "添加成功！");
             } catch (Exception e) {
                 e.printStackTrace();
-                return new AjaxMessage(false, "添加用户失败！");
+                return new AjaxMessage(false, "添加失败！");
             }
         }
         return new AjaxMessage(false, "验证码有误，请重新输入！");
@@ -158,11 +158,11 @@ public class UserController {
     @PostMapping("/updateUser")
     public AjaxMessage updateUser(User user) {
         try {
-//            String password = user.getPassword();
-//            String encodePassword = Base64Utils.encode(password);
-//            user.setPassword(encodePassword);
+            String password = user.getPassword();
+            String encodePassword = Base64Utils.encode(password);
+            user.setPassword(encodePassword);
             System.out.println(user);
-//            userService.updateUserById(user);
+            userService.updateUserById(user);
             return new AjaxMessage(true, "修改用户成功！");
         } catch (Exception e) {
             e.printStackTrace();
