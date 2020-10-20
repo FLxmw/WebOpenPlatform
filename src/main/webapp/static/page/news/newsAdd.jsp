@@ -125,7 +125,7 @@
         //上传服务器
         layedit.set({
             uploadImage: {
-                url: '${pageContext.request.contextPath}/image/uploadEditImage' //接口url
+                url: '${pageContext.request.contextPath}/image/uploadImages' //接口url
             }
         });
         //注意：layedit.set 一定要放在 build 前面，否则配置全局接口将无效。

@@ -57,17 +57,20 @@
             $ = layui.jquery,
             upload = layui.upload;
 
+        var img_src;
         //上传logo
         upload.render({
             elem: '.linkLogo',
-            url: '${pageContext.request.contextPath}/image/uploadEditImage',
+            url: '${pageContext.request.contextPath}/image/uploadImages',
             accept: 'file',//相当于type属性  文件类型
             acceptMime: 'image/*',//筛选条件  只显示图片类型
-            field: 'file',//相当于name属性  文件域的字段名  默认为file
+            field: 'image',//相当于name属性  文件域的字段名  默认为file
             multiple: true,
             done: function (res, index, upload) {
                 console.log(res.data.src);
-                $('.linkLogoImg').attr('src', res.data.src);
+                img_src = res.data.src;
+                var imgSrc = '${pageContext.request.contextPath}/static/';
+                $('.linkLogoImg').attr('src', imgSrc + res.data.src);
                 $('.linkLogo').css("background", "#fff");
             }
         });
@@ -92,6 +95,7 @@
         });
 
         form.on("submit(addLink)", function (data) {
+            alert(img_src);
             //弹出loading
             var index = top.layer.msg('数据提交中，请稍候', {icon: 16, time: false, shade: 0.8});
             //ajax返回信息描述
@@ -101,7 +105,7 @@
                 url: "${param.url}",
                 data: {
                     id: $(".id").val(),
-                    logo: $(".linkLogoImg").attr("src"),  //logo
+                    logo: img_src,  //logo
                     websiteName: $(".linkName").val(),  //网站名称
                     websiteUrl: $(".linkUrl").val(),    //网址
                     masterEmail: $('.masterEmail').val(),    //站长邮箱

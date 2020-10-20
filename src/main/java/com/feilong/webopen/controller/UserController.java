@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 
@@ -46,8 +47,8 @@ public class UserController {
     }
 
     @RequestMapping("/login")
-    public AjaxMessage userLogin(String username, String password,HttpServletRequest request) {
-        request.getSession().setAttribute("username",username);
+    public AjaxMessage userLogin(String username, String password, HttpServletRequest request) {
+        request.getSession().setAttribute("username", username);
         String encodePassword = Base64Utils.encode(password);
         User loginUser = null;
         try {
@@ -131,10 +132,11 @@ public class UserController {
     @PostMapping("/updateUser")
     public AjaxMessage updateUser(User user) {
         try {
-            String password = user.getPassword();
-            String encodePassword = Base64Utils.encode(password);
-            user.setPassword(encodePassword);
-            userService.updateUserById(user);
+//            String password = user.getPassword();
+//            String encodePassword = Base64Utils.encode(password);
+//            user.setPassword(encodePassword);
+            System.out.println(user);
+//            userService.updateUserById(user);
             return new AjaxMessage(true, "修改用户成功！");
         } catch (Exception e) {
             e.printStackTrace();
@@ -151,6 +153,28 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return new AjaxMessage(false, "删除用户失败！");
+        }
+    }
+
+    @RequestMapping("/findUser")
+    public void findUser(String username, HttpServletRequest request, HttpServletResponse response) {
+        System.out.println(username);
+        if (username != null) {
+            try {
+                User user = userService.findUserByUsername(username);
+                System.out.println(user);
+                String address = user.getAddress();
+                String province = address.substring(0, 3);
+                user.setProvince(province);
+                String city = address.substring(3, 6);
+                user.setCity(city);
+                String area = address.substring(6);
+                user.setArea(area);
+                request.setAttribute("user", user);
+                request.getRequestDispatcher("/static/page/uu/userInfo.jsp").forward(request, response);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

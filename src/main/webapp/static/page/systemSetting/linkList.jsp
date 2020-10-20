@@ -54,7 +54,7 @@
                 {field: 'id', title: 'ID', align: 'center', width: 50},
                 {
                     field: 'logo', title: 'LOGO', width: 150, align: "center", templet: function (d) {
-                        return '<a href="' + d.websiteUrl + '" target="_blank"><img src="' + d.logo + '" height="26" /></a>';
+                        return '<a href="' + d.websiteUrl + '" target="_blank"><img src="${pageContext.request.contextPath}/static/' + d.logo + '" height="26" /></a>';
                     }
                 },
                 {field: 'websiteName', title: '网站名称', align: 'center', width: 150},

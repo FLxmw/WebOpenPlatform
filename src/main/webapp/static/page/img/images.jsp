@@ -9,23 +9,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../../layui/css/layui.css" media="all" />
-    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
 </head>
 <body class="childrenBody">
-<form class="layui-form" >
-    <blockquote class="layui-elem-quote news_search">
-        <div class="layui-inline">
-            <input type="checkbox" name="selectAll" id="selectAll" lay-filter="selectAll" lay-skin="primary" title="全选">
-        </div>
-        <div class="layui-inline">
-            <a class="layui-btn layui-btn-sm layui-btn-danger batchDel">批量删除</a>
-        </div>
-        <div class="layui-inline">
-            <a class="layui-btn layui-btn-sm uploadNewImg">上传新图片</a>
-        </div>
-    </blockquote>
-    <ul class="layer-photos-demo"  id="Images"></ul>
+<form class="layui-form">
+<blockquote class="layui-elem-quote news_search" style="height: 25px;padding-bottom: 20px; " >
+    <div class="layui-inline">
+        <input type="checkbox" style="padding-top: 30px !important;" name="selectAll" id="selectAll" lay-filter="selectAll" lay-skin="primary" title="全选">
+    </div>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-sm layui-btn-danger batchDel">批量删除</a>
+    </div>
+    <div class="layui-inline">
+        <a class="layui-btn layui-btn-sm uploadNewImg">上传新图片</a>
+    </div>
+</blockquote>
+<ul class="layer-photos-demo" id="Images"></ul>
 </form>
 <script type="text/javascript" src="../../layui/layui.js"></script>
 <script type="text/javascript">
@@ -48,7 +48,7 @@
                     var imgList = [], data = res.data;
                     setTimeout(function () {
                         layui.each(data, function (index, item) {
-                            imgList.push('<li><img style="width: 220px;height: 220px;" layer-src="../../' + item.src + '" src="../../' + item.thumb + '" alt="' + item.alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + item.alt + '"></div><input type="hidden" id="pid" value="' + item.pid + '"/><i class="layui-icon img_del">&#xe640;</i></div></li>');
+                            imgList.push('<li><img width="380px" height="310px" layer-src="${pageContext.request.contextPath}/static/' + item.src + '" src="${pageContext.request.contextPath}/static/' + item.thumb + '" alt="' + item.alt + '"><div class="operate"><div class="check"><input type="checkbox" name="belle" lay-filter="choose" lay-skin="primary" title="' + item.alt + '"></div><input type="hidden" id="pid" value="' + item.pid + '"/><i class="layui-icon img_del">&#xe640;</i></div></li>');
                         });
                         next(imgList.join(''), page < (res.count / imgNums));
                         form.render();

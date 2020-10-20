@@ -7,7 +7,7 @@
     </select>
 
     <sql id="getUser">
-        select  id, username, password, email, sex, state, grade, endtime,userDesc
+        select  id, username, password, email, sex, state, grade, endtime,userDesc,phone,address,aliasName,birthday
           from user
     </sql>
     <select id="getUserList" resultType="user">

@@ -21,10 +21,10 @@ layui.config({
         address.provinces();
         var userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
         var citys;
-        $("#username").val(userInfo.username); //用户名
+        $(".realName").val(userInfo.realName); //用户名
         $(".userSex input[value="+userInfo.sex+"]").attr("checked","checked"); //性别
-        $("#phone").val(userInfo.phone); //手机号
-        $("#birthday").val(userInfo.birthday); //出生年月
+        $(".userPhone").val(userInfo.userPhone); //手机号
+        $(".userBirthday").val(userInfo.userBirthday); //出生年月
         //填充省份信息，同时调取市级信息列表
         $.get("../../static/json/address.json", function (addressData) {
             $(".userAddress select[name='province']").val(userInfo.province); //省
@@ -51,8 +51,8 @@ layui.config({
                 $(".userHobby input[name='"+key+"']").attr("checked","checked");
             }
         }
-        $("#email").val(userInfo.email); //用户邮箱
-        $("#userDesc").val(userInfo.userDesc); //自我评价
+        $(".userEmail").val(userInfo.userEmail); //用户邮箱
+        $(".myself").val(userInfo.myself); //自我评价
         form.render();
     }
 })
