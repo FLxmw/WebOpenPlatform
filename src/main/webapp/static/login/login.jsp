@@ -50,7 +50,7 @@
             <li><img src="../images/QQ.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
             <li><img src="../images/WeChat2%20.png"
                      class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
-            <li><img src="../images/微博.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
+            <li><img src="../images/weibo.png" class="layui-col-xs4 layui-col-sm4 layui-col-md4 layui-col-lg4"></li>
         </ul>
     </div>
 </form>
