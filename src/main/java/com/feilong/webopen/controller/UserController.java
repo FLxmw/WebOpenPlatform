@@ -85,12 +85,14 @@ public class UserController {
         System.out.println(loginUser);
         if (loginUser != null) {
             String accessToken = JwtUtil.sign(loginUser.getUsername(), loginUser.getPassword());
+            System.out.println(accessToken);
             String str = accessToken.replace(".", ",");
             System.out.println(str);
             String[] split = str.split(",");
             String strValue = split[split.length - 1];
             Token token = new Token();
             token.setAccessToken(strValue);
+            System.out.println(strValue);
             token.setAid(loginUser.getId());
             //开始时间  为用户登录的当前时间
             token.setStartTime(new Date());

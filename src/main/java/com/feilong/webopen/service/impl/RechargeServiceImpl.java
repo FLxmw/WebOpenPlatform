@@ -39,9 +39,9 @@ public class RechargeServiceImpl implements RechargeService {
     }
 
     @Override
-    public PageInfo<Recharge> getRechargeListByPage(int page, int limit) {
+    public PageInfo<Recharge> getRechargeListByPage(int page, int limit,Recharge recharge) {
         PageHelper.startPage(page, limit);
-        List<Recharge> rechargeList = rechargeMapper.getRechargeList();
+        List<Recharge> rechargeList = rechargeMapper.getRechargeList(recharge);
         return new PageInfo<Recharge>(rechargeList);
     }
 }

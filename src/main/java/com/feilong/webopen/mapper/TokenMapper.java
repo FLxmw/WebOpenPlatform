@@ -20,6 +20,6 @@ public interface TokenMapper {
 
     Token findTokenByToken(@Param("accessToken") String accessToken);
 
-    List<Token> findTokenList();
+    List<Token> findTokenList(Token token);
 
 }

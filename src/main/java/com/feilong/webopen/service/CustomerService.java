@@ -22,7 +22,7 @@ public interface CustomerService {
 
     List<Customer> getAllCustomers();
 
-    PageInfo<Customer> findAllCustomers(Customer customer, int page, int limit);
+//    PageInfo<Customer> findAllCustomers(Customer customer, int page, int limit);
 
-    PageInfo<Customer> selectCustomerSearch(Customer customer, int page, int limit);
+    PageInfo<Customer> selectCustomerSearch(int page, int limit,Customer customer);
 }

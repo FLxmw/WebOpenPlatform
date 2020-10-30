@@ -16,7 +16,7 @@ public interface TokenService {
 
     void deleteTokenByIds(long[] ids);
 
-    PageInfo<Token> getTokenByPage(int page,int limit);
+    PageInfo<Token> getTokenByPage(int page, int limit, Token token);
 
     Token findTokenByAccessToken(String accessToken);
 }

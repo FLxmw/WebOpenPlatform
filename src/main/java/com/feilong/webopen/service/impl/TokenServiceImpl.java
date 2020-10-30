@@ -42,9 +42,9 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public PageInfo<Token> getTokenByPage(int page, int limit) {
+    public PageInfo<Token> getTokenByPage(int page, int limit, Token token) {
         PageHelper.startPage(page, limit);
-        List<Token> tokenList = tokenMapper.findTokenList();
+        List<Token> tokenList = tokenMapper.findTokenList(token);
         return new PageInfo<Token>(tokenList);
     }
 

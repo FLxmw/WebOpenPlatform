@@ -53,8 +53,16 @@
            from news
     </sql>
 
-    <select id="getNewsList" resultType="news">
+    <select id="getNewsList" resultType="news" parameterType="news">
         <include refid="getNews"/>
+         <where>
+             <if test="newsName!=null and newsName!=''">
+                 newsName like concat('%',#{newsName},'%')
+             </if>
+             <if test="newsStatus!=null">
+                and newsStatus=#{newsStatus}
+             </if>
+         </where>
     </select>
 
     <select id="findContentById" resultType="string" parameterType="java.lang.Integer">

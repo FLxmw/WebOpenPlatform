@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link rel="stylesheet" href="../../css/public.css" media="all" />
+    <link rel="stylesheet" href="../../css/public.css" media="all"/>
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <style type="text/css">
         body .demo-class .layui-layer-title {
@@ -32,6 +32,7 @@
             font-size: 22px;
             background: #FFFAF0;
         }
+
         body .open-class .layui-layer-btn .layui-layer-btn1 {
             background: #D3D3D3;
         }
@@ -155,6 +156,7 @@
             , title: '应用数据表'//数据导出来的标题
             , toolbar: "#customerToolBar"   //表格的工具条
             // , height: 'full-130'
+            , id: "customerId"
             , cellMinWidth: 100 //设置列的最小默认宽度
             , skin: 'row' //行边框风格  row列边框  nob无边框
             , even: true //开启隔行背景
@@ -169,8 +171,8 @@
                 , {field: 'username', title: '用户名', align: 'center'}
                 , {field: 'password', title: '密码', align: 'center'}
                 , {field: 'nickname', title: '公司名', align: 'center'}
-                , {field: 'address', title: '公司地址', align: 'center',width:200}
-                , {field: 'money', title: '账户余额', align: 'center', totalRow: true}
+                , {field: 'address', title: '公司地址', align: 'center', width: 200}
+                , {field: 'money', title: '账户余额', align: 'center',  }
                 , {
                     field: 'state', title: '用户状态', align: 'center', templet: function (data) {
                         return data.state == 1 ? '<span  class="layui-badge layui-bg-green" style="margin: 5px;">有效</span>' : '<span  class="layui-badge layui-bg-red" style="margin: 5px;">无效</span>';
@@ -195,7 +197,7 @@
                         area: ['330px', '180px']
                     }, function (index) {
                         layer.close(index);
-                        var checkStatus = table.checkStatus('customerTable'); //idTest 即为基础参数 id 对应的值
+                        var checkStatus = table.checkStatus('customerId'); //idTest 即为基础参数 id 对应的值
                         var datas = checkStatus.data;
                         console.log(datas);
                         $(datas).each(function (index) {
@@ -254,13 +256,13 @@
 
         //打开添加/编辑页面
         function openEditCustomer(data) {
-           console.log( $("#dataFrm").serialize());
+            console.log($("#dataFrm").serialize());
             mainIndex = layer.open({
                 type: 1,
                 title: data == null ? '添加用户' : '编辑用户',
                 content: $("#saveOrUpdateDiv"),
                 area: ['800px', '500px'],
-                skin:'open-class',
+                skin: 'open-class',
                 btn: [
                     '<span class="layui-icon layui-icon-release" >提交</span>',
                     '<span class="layui-icon layui-icon-close" >取消</span >'
@@ -293,14 +295,14 @@
                     })
 
                 }
-                ,btn1:function () {
+                , btn1: function () {
                     tableIns.reload()
                 }
                 , success: function (index) {
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
-                    }else {
+                    } else {
                         $("#dataFrm")[0].reset()
                     }
                 }
@@ -310,12 +312,13 @@
         //提交搜索条件表单
         form.on("submit(doSearch)", function (obj) {
             console.log(obj.field);
-            tableIns.reload({
+            table.reload('customerId',{
                 page: {
                     curr: 1 //重新从第 1 页开始
                 },
                 where: obj.field
             });
+            return false;
             <%--$.ajax({--%>
             <%--url:'${pageContext.request.contextPath}/customer/search',--%>
             <%--data:obj.field,--%>

@@ -205,20 +205,38 @@
                         var checkStatus = table.checkStatus('apiMappingTable'); //idTest 即为基础参数 id 对应的值
                         var datas = checkStatus.data;
                         console.log(datas);
-                        $(datas).each(function (index) {
-                            console.log(datas[index].id);
-                            $.ajax({
-                                url: '${pageContext.request.contextPath}/apiMapping/deleteApiMapping?ids=' + datas[index].id,
-                                success: function (data) {
-                                    if (data.status) {
-                                        layer.msg(data.message);
-                                        tableIns.reload();//表格重载
-                                    } else {
-                                        layer.msg(data.message);
-                                    }
-                                }
-                            })
+
+                        var params = "";
+                        $.each(datas, function (index, data) {
+                            params += "&ids=" + data.id;
                         });
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/apiMapping/deleteApiMapping',
+                            method: 'get',
+                            data: params,
+                            success: function (data) {
+                                if (data.status) {
+                                    layer.msg(data.message);
+                                    tableIns.reload();//表格重载
+                                } else {
+                                    layer.msg(data.message);
+                                }
+                            }
+                        });
+                        <%--$(datas).each(function (index) {--%>
+                            <%--console.log(datas[index].id);--%>
+                            <%--$.ajax({--%>
+                                <%--url: '${pageContext.request.contextPath}/apiMapping/deleteApiMapping?ids=' + datas[index].id,--%>
+                                <%--success: function (data) {--%>
+                                    <%--if (data.status) {--%>
+                                        <%--layer.msg(data.message);--%>
+                                        <%--tableIns.reload();//表格重载--%>
+                                    <%--} else {--%>
+                                        <%--layer.msg(data.message);--%>
+                                    <%--}--%>
+                                <%--}--%>
+                            <%--})--%>
+                        <%--});--%>
                     });
                     break;
             }

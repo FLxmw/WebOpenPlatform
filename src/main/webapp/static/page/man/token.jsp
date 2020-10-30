@@ -283,6 +283,27 @@
 
         //提交搜索条件表单
         form.on("submit(doSearch)", function (obj) {
+            console.log(obj.field);
+            tableIns.reload({
+                page: {
+                    curr: 1 //重新从第 1 页开始
+                },
+                where: obj.field
+            });
+            return false;
+            <%--$.ajax({--%>
+            <%--url:'${pageContext.request.contextPath}/customer/search',--%>
+            <%--data:obj.field,--%>
+            <%--method:'POST',--%>
+            <%--success:function (data) {--%>
+            <%--tableIns.reload({--%>
+            <%--page: {--%>
+            <%--curr: 1 //重新从第 1 页开始--%>
+            <%--},--%>
+            <%--where: data.field--%>
+            <%--})--%>
+            <%--}--%>
+            <%--})--%>
         });
     });
 </script>

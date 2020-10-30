@@ -56,9 +56,9 @@ public class RechargeController {
     }
 
     @RequestMapping("/showTable")
-    public TableData<Recharge> getRechargeList(int page, int limit) {
+    public TableData<Recharge> getRechargeList(int page, int limit,Recharge recharge) {
         TableData<Recharge> tableData = new TableData<>();
-        PageInfo<Recharge> pageInfo = rechargeService.getRechargeListByPage(page, limit);
+        PageInfo<Recharge> pageInfo = rechargeService.getRechargeListByPage(page, limit,recharge);
         return new TableData<Recharge>(pageInfo.getTotal(), pageInfo.getList());
     }
 

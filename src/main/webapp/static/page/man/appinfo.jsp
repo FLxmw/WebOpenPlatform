@@ -5,19 +5,21 @@
     <title>数组表格</title>
     <link rel="stylesheet" href="../../layui/css/layui.css">
     <style type="text/css">
-        body .demo-class .layui-layer-title{
-            background:#c00;
-            color:#fff;
+        body .demo-class .layui-layer-title {
+            background: #c00;
+            color: #fff;
             border: none;
         }
+
         body .demo-class .layui-layer-btn {
             background: #F8F8FF;
             padding: 5px;
         }
 
-        body .demo-class .layui-layer-btn .layui-layer-btn1{
-            background:#D3D3D3;
+        body .demo-class .layui-layer-btn .layui-layer-btn1 {
+            background: #D3D3D3;
         }
+
         body .demo-class .layui-layer-content {
             font-family: "楷体";
             font-size: 22px;
@@ -178,8 +180,8 @@
                 , {field: 'appName', title: '应用名称', align: 'center'}
                 , {field: 'appKey', title: 'appKey', align: 'center'}
                 , {field: 'appSecret', title: '秘钥', align: 'center'}
-                , {field: 'redirectUrl', title: '回调地址', align: 'center',width:180}
-                , {field: 'limiting', title: '日调用量限制', align: 'center',totalRow: true}
+                , {field: 'redirectUrl', title: '回调地址', align: 'center', width: 180}
+                , {field: 'limiting', title: '日调用量限制', align: 'center', totalRow: true}
                 , {field: 'description', title: '描述', align: 'center'}
                 , {
                     field: 'state', title: '应用状态', align: 'center', templet: function (data) {
@@ -198,25 +200,43 @@
                     openEditAppInfo(null);
                     break;
                 case 'batchDelete':
-                    layer.confirm('你真的要删除选中的吗?', {icon: 2, title:'温馨提示' ,skin :'demo-class'}, function(index){
+                    layer.confirm('你真的要删除选中的吗?', {icon: 2, title: '温馨提示', skin: 'demo-class'}, function (index) {
                         layer.close(index);
                         var checkStatus = table.checkStatus('appInfoTable'); //idTest 即为基础参数 id 对应的值
                         var datas = checkStatus.data;
                         console.log(datas);
-                        $(datas).each(function (index) {
-                            console.log(datas[index].id);
-                            $.ajax({
-                                url: '${pageContext.request.contextPath}/appInfo/deleteAppInfo?ids=' + datas[index].id,
-                                success: function (data) {
-                                    if (data.status) {
-                                        layer.msg(data.message);
-                                        tableIns.reload();//表格重载
-                                    } else {
-                                        layer.msg(data.message);
-                                    }
-                                }
-                            })
+                        var params = "";
+                        $.each(datas, function (index, data) {
+                            params += "&ids=" + data.id;
                         });
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/appInfo/deleteAppInfo',
+                            method: 'get',
+                            data: params,
+                            success: function (data) {
+                                if (data.status) {
+                                    layer.msg(data.message);
+                                    tableIns.reload();//表格重载
+                                } else {
+                                    layer.msg(data.message);
+                                }
+                            }
+                        });
+
+                        <%--$(datas).each(function (index) {--%>
+                            <%--console.log(datas[index].id);--%>
+                            <%--$.ajax({--%>
+                                <%--url: '${pageContext.request.contextPath}/appInfo/deleteAppInfo?ids=' + datas[index].id,--%>
+                                <%--success: function (data) {--%>
+                                    <%--if (data.status) {--%>
+                                        <%--layer.msg(data.message);--%>
+                                        <%--tableIns.reload();//表格重载--%>
+                                    <%--} else {--%>
+                                        <%--layer.msg(data.message);--%>
+                                    <%--}--%>
+                                <%--}--%>
+                            <%--})--%>
+                        <%--});--%>
                     });
                     break;
             }
@@ -230,7 +250,7 @@
             var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
             if (layEvent === 'del') { //删除
                 layer.msg("删除");
-                layer.confirm('真的要删除这一条数据吗？', {icon: 2, title:'温馨提示' ,skin :'demo-class'}, function (index) {
+                layer.confirm('真的要删除这一条数据吗？', {icon: 2, title: '温馨提示', skin: 'demo-class'}, function (index) {
                     layer.close(index);
                     //向服务端发送删除指令
                     $.ajax({
@@ -257,10 +277,10 @@
             $("#dataFrm").serialize()
             mainIndex = layer.open({
                 type: 1,
-                title: data==null?'添加应用':'编辑应用',
+                title: data == null ? '添加应用' : '编辑应用',
                 content: $("#saveOrUpdateDiv"),
                 area: ['800px', '500px'],
-                skin:'open-class',
+                skin: 'open-class',
                 btn: [
                     '<span class="layui-icon layui-icon-release" >提交</span>',
                     '<span class="layui-icon layui-icon-close" >取消</span >'
@@ -298,7 +318,7 @@
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
-                    }else {
+                    } else {
                         $("#dataFrm")[0].reset()
                     }
                     $.ajax({

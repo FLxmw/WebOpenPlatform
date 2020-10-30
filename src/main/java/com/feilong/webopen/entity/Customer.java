@@ -14,13 +14,13 @@ public class Customer implements Serializable {
     private String password;
     private String nickname;
     private String address;
-    private int money;
-    private int state;
+    private Integer money;
+    private Integer state;
 
     public Customer() {
     }
 
-    public Customer(Integer id, String username, String password, String nickname, String address, int money, int state) {
+    public Customer(Integer id, String username, String password, String nickname, String address, Integer money, Integer state) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -70,19 +70,19 @@ public class Customer implements Serializable {
         this.address = address;
     }
 
-    public int getMoney() {
+    public Integer getMoney() {
         return money;
     }
 
-    public void setMoney(int money) {
+    public void setMoney(Integer money) {
         this.money = money;
     }
 
-    public int getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 

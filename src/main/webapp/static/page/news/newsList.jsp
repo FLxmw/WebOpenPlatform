@@ -129,7 +129,6 @@
             console.log("编辑文章的数据：" + data);
             var url = data == null ? '${pageContext.request.contextPath}/news/addNews' : '${pageContext.request.contextPath}/news/updateNews';
             var index = layui.layer.open({
-            var index = layui.layer.open({
                 title: data == null ? "添加文章" : "编辑文章",
                 type: 2,
                 content: "newsAdd.jsp?url=" + url,

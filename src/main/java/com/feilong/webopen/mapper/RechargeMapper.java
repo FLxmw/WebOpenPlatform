@@ -19,7 +19,7 @@ public interface RechargeMapper {
 
     void deleteRechargeByIds(long[] ids);
 
-    List<Recharge> getRechargeList();
+    List<Recharge> getRechargeList(Recharge recharge);
 
     Recharge getRechargeById(Integer id);
 }

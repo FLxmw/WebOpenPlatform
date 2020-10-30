@@ -26,6 +26,7 @@
             font-size: 22px;
             background: #FFFAF0;
         }
+
         body .open-class .layui-layer-btn .layui-layer-btn1 {
             background: #D3D3D3;
         }
@@ -39,17 +40,17 @@
 <form action="#" class="layui-form" style="margin-left: 20px">
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label>用户名:</label>
+            <label>客户ID:</label>
             <div class="layui-inline">
-                <input type="text" name="username" autocomplete="off" placeholder="请输入用户名"
+                <input type="text" name="cusId" autocomplete="off" placeholder="请输入客户ID"
                        class="layui-input">
             </div>
             状态:
             <div class="layui-inline">
                 <select name="state">
                     <option value="">请选择</option>
-                    <option value="0">无效</option>
-                    <option value="1">有效</option>
+                    <option value="0">未支付</option>
+                    <option value="1">已支付</option>
                 </select>
             </div>
             <button class="layui-btn layui-btn-normal layui-btn-sm layui-icon layui-icon-search" lay-submit
@@ -78,54 +79,58 @@
 <!-- 添加和修改的弹出层开始 -->
 <div style="display: none;padding: 20px" id="saveOrUpdateDiv">
     <form class="layui-form " action="" method="post" lay-filter="dataFrm" id="dataFrm">
-        <input type="hidden" hidden="hidden" name="id">
+        <input type="hidden" hidden="hidden" name="id" id="id">
         <div class="layui-form-item">
-            <label class="layui-form-label">用户名:</label>
+            <label class="layui-form-label">客户ID:</label>
             <div class="layui-input-block">
-                <input type="text" name="username" required lay-verify="required" placeholder="请输入用户名"
+                <input type="text" name="cusId" id="cusId" required lay-verify="required" placeholder="请输入客户ID"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司名称</label>
+            <label class="layui-form-label">订单号</label>
             <div class="layui-input-block">
-                <input type="text" name="nickname" required lay-verify="required" placeholder="请输入公司名称"
+                <input type="text" name="orderId" id="orderId" required lay-verify="required" placeholder="请输入订单号"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码：</label>
+        <div class="layui-form-item  releaseDate">
+            <label class="layui-form-label">创建时间</label>
             <div class="layui-input-block">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
-                       autocomplete="off"
-                       class="layui-input">
+                <input type="text" name="createTime" id="createTime" class="layui-input createTime" placeholder="请选择日期和时间"
+                       readonly/>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">公司地址：</label>
+            <label class="layui-form-label">更新时间：</label>
             <div class="layui-input-block">
-                <input type="text" name="address" required lay-verify="required" placeholder="请输入地址"
-                       autocomplete="off"
-                       class="layui-input">
+                <input type="text" name="updateTime" id="updateTime" class="layui-input updateTime" placeholder="请选择日期和时间"
+                       readonly/>
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">账户金额(元)：</label>
             <div class="layui-input-block">
-                <input type="number" name="money" required lay-verify="required" placeholder="请输入账号金额"
+                <input type="number" name="money" id="money" required lay-verify="required" placeholder="请输入账号金额"
                        autocomplete="off"
                        class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户状态：</label>
-            <div class="layui-input-block">
-                <input type="radio" name="state" title="有效" value="1" checked/>
-                <input type="radio" name="state" title="无效" value="0"/>
+            <label class="layui-form-label">支付状态：</label>
+            <div class="layui-input-block" id="state">
+                <input type="radio" name="state" title="已支付" value="1" />
+                <input type="radio" name="state" title="未支付" value="0"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">支付类型：</label>
+            <div class="layui-input-block" id="paymentType">
+                <input type="radio" name="paymentType"  value="1" >支付宝
+                <input type="radio" name="paymentType"  value="2">微信
             </div>
         </div>
     </form>
@@ -135,11 +140,12 @@
 
 <script src="../../layui/layui.js"></script>
 <script type="text/javascript">
-    layui.use(['jquery', 'layer', 'form', 'table'], function () {
+    layui.use(['jquery', 'layer', 'form', 'table', 'laydate'], function () {
         var $ = layui.jquery;
         var layer = layui.layer;
         var form = layui.form;
         var table = layui.table;
+        var laydate = layui.laydate;
 
         var tableIns;
         //渲染数据表格
@@ -159,17 +165,17 @@
             , page: true  //是否启用分页
             , cols: [[   //列表数据
                 {type: 'checkbox', fixed: 'left'}
-                , {field: 'id', title: 'ID', sort: true, align: 'center', width:60,totalRowText: "合计"}
-                , {field: 'cusId', title: '客户ID', align: 'center',width:80}
-                , {field: 'orderId', title: '订单编号', align: 'center',width:150}
-                , {field: 'createTime', title: '创建时间', align: 'center',width:180}
-                , {field: 'updateTime', title: '更新时间', align: 'center',width:180}
+                , {field: 'id', title: 'ID', sort: true, align: 'center', width: 60, totalRowText: "合计"}
+                , {field: 'cusId', title: '客户ID', align: 'center', width: 80}
+                , {field: 'orderId', title: '订单编号', align: 'center', width: 150}
+                , {field: 'createTime', title: '创建时间', align: 'center', width: 180}
+                , {field: 'updateTime', title: '更新时间', align: 'center', width: 180}
                 , {
                     field: 'paymentType', title: '支付类型', align: 'center', templet: function (data) {
                         return data.paymentType == 1 ? '<span  class="layui-badge layui-bg-blue" style="margin: 5px;">支付宝</span>' : '<span  class="layui-badge layui-bg-green" style="margin: 5px;">微信</span>';
                     }
                 }
-                , {field: 'money', title: '充值金额(元)', align: 'center', totalRow: true,width:120}
+                , {field: 'money', title: '充值金额(元)', align: 'center', totalRow: true, width: 120}
                 , {
                     field: 'state', title: '充值状态', align: 'center', templet: function (data) {
                         return data.state == 1 ? '<span  class="layui-badge layui-bg-green" style="margin: 5px;">已支付</span>' : '<span  class="layui-badge layui-bg-red" style="margin: 5px;">未支付</span>';
@@ -179,7 +185,38 @@
             ]]
         })
 
+        //格式化时间
+        function filterTime(val) {
+            if (val < 10) {
+                return "0" + val;
+            } else {
+                return val;
+            }
+        }
 
+        //定时发布
+        var time = new Date();
+        var submitTime = time.getFullYear() + '-' + filterTime(time.getMonth() + 1) + '-' + filterTime(time.getDate()) + ' ' + filterTime(time.getHours()) + ':' + filterTime(time.getMinutes()) + ':' + filterTime(time.getSeconds());
+        laydate.render({
+            elem: '.createTime',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            trigger: "click",
+            done: function (value, date, endDate) {
+                submitTime = value;
+                console.log(submitTime);
+            }
+        });
+        laydate.render({
+            elem: '.updateTime',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm:ss',
+            trigger: "click",
+            done: function (value, date, endDate) {
+                submitTime = value;
+                console.log(submitTime);
+            }
+        });
         //监听头部工具栏事件
         table.on("toolbar(rechargeTable)", function (obj) {
             switch (obj.event) {
@@ -253,13 +290,13 @@
 
         //打开添加/编辑页面
         function openEditRecharge(data) {
-            console.log( $("#dataFrm").serialize());
+            console.log($("#dataFrm").serialize());
             mainIndex = layer.open({
                 type: 1,
-                title: data == null ? '添加用户' : '编辑用户',
+                title: data == null ? '添加订单' : '编辑订单',
                 content: $("#saveOrUpdateDiv"),
                 area: ['800px', '500px'],
-                skin:'open-class',
+                skin: 'open-class',
                 btn: [
                     '<span class="layui-icon layui-icon-release" >提交</span>',
                     '<span class="layui-icon layui-icon-close" >取消</span >'
@@ -272,10 +309,19 @@
                 , maxmin: true //是否显示最大化和最小化的按钮 type=1 type=2有效
                 //点击按钮的回调
                 , yes: function (index, layero) {
-                    layer.load(1)
+                    layer.load(1);
                     $.ajax({
                         url: '${pageContext.request.contextPath}/recharge/' + (data == null ? "addRecharge" : "updateRecharge"),
-                        data: $("#dataFrm").serialize(),
+                        data: {
+                            id: $("#id").val(),
+                            cusId: $("#cusId").val(),
+                            orderId: $("#orderId").val(),
+                            createTime: submitTime,
+                            updateTime: submitTime,
+                            money: $("#money").val(),
+                            state: $("#state").val(),
+                            paymentType: $("#paymentType").val()
+                        },
                         method: 'post',
                         success: function (res) {
                             if (res.status) {
@@ -292,14 +338,14 @@
                     })
 
                 }
-                ,btn1:function () {
+                , btn1: function () {
                     tableIns.reload()
                 }
                 , success: function (index) {
                     form.render();
                     if (data != null) {
                         form.val("dataFrm", data)
-                    }else {
+                    } else {
                         $("#dataFrm")[0].reset()
                     }
                 }
@@ -315,19 +361,7 @@
                 },
                 where: obj.field
             });
-            <%--$.ajax({--%>
-            <%--url:'${pageContext.request.contextPath}/recharge/search',--%>
-            <%--data:obj.field,--%>
-            <%--method:'POST',--%>
-            <%--success:function (data) {--%>
-            <%--tableIns.reload({--%>
-            <%--page: {--%>
-            <%--curr: 1 //重新从第 1 页开始--%>
-            <%--},--%>
-            <%--where: data.field--%>
-            <%--})--%>
-            <%--}--%>
-            <%--})--%>
+            return false;
         });
     });
 </script>

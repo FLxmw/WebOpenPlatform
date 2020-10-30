@@ -23,8 +23,8 @@ public class TokenController {
     @Autowired
     private TokenService tokenService;
     @RequestMapping("/showTable")
-    public TableData<Token> getTokenList(int page,int limit){
-        PageInfo<Token> tokenPageInfo = tokenService.getTokenByPage(page, limit);
+    public TableData<Token> getTokenList(int page,int limit,Token token){
+        PageInfo<Token> tokenPageInfo = tokenService.getTokenByPage(page, limit,token);
         return new TableData<Token>(tokenPageInfo.getTotal(),tokenPageInfo.getList());
     }
 

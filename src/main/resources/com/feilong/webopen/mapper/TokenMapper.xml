@@ -42,7 +42,12 @@
              <if test="accessToken!=null and accessToken!=''">accessToken=#{accessToken}</if>
     </select>
 
-    <select id="findTokenList" resultType="token">
+    <select id="findTokenList" resultType="token" parameterType="token">
         <include refid="getToken"/>
+        <where>
+            <if test="accessToken!=null">
+                accessToken like concat('%',#{accessToken},'%')
+            </if>
+        </where>
     </select>
 </mapper>

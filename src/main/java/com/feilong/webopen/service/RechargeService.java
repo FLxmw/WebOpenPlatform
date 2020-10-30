@@ -16,5 +16,5 @@ public interface RechargeService {
 
     void deleteRechargeByIds(long[] ids);
 
-    PageInfo<Recharge> getRechargeListByPage(int page,int limit);
+    PageInfo<Recharge> getRechargeListByPage(int page,int limit,Recharge recharge);
 }
